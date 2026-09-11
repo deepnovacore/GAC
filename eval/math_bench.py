@@ -19,6 +19,7 @@ from pathlib import Path
 
 from datasets import load_dataset
 
+from common import public_model_label, require_dataset_size
 from generate_vllm import GenerationConfig, generate
 from prompts import MATH_SYSTEM, math_user_prompt
 
@@ -36,6 +37,8 @@ DATASETS = {
     "aime24": ("HuggingFaceH4/aime_2024", "train", "problem", "answer"),
     "aime25": ("math-ai/aime25", "test", "problem", "answer"),
 }
+
+EXPECTED_SIZES = {"amc": 83, "aime24": 30, "aime25": 30}
 
 
 BOXED_RE = re.compile(r"\\boxed\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}")
@@ -72,6 +75,7 @@ def load_benchmark(name: str) -> list[dict]:
         raise ValueError(f"Unknown math benchmark: {name!r}")
     hf_id, split, prob_key, ans_key = DATASETS[name]
     ds = load_dataset(hf_id, split=split)
+    require_dataset_size(name, len(ds), EXPECTED_SIZES[name])
     out = []
     for i, row in enumerate(ds):
         out.append(
@@ -118,13 +122,14 @@ def run_benchmark(
 
     summary = {
         "benchmark": name,
-        "model_path": model_path,
+        "model": public_model_label(model_path),
         "n_total": len(records),
         "n_correct": correct,
         "accuracy": acc,
         "seed": cfg.seed,
         "temperature": cfg.temperature,
         "n_samples": cfg.n_samples,
+        "data_source": f"{DATASETS[name][0]}:{DATASETS[name][1]}",
     }
     with open(per_bench_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
@@ -148,6 +153,7 @@ def main() -> None:
     p.add_argument("--temperature", type=float, default=0.6)
     p.add_argument("--top_p", type=float, default=0.95)
     p.add_argument("--max_new_tokens", type=int, default=8192)
+    p.add_argument("--gpu_memory_utilization", type=float, default=0.8)
     p.add_argument("--seed", type=int, default=0)
     args = p.parse_args()
 
@@ -158,6 +164,7 @@ def main() -> None:
         temperature=args.temperature,
         top_p=args.top_p,
         max_new_tokens=args.max_new_tokens,
+        gpu_memory_utilization=args.gpu_memory_utilization,
         seed=args.seed,
     )
     out = Path(args.output_dir)

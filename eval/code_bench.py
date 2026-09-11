@@ -1,16 +1,16 @@
 """Code generation benchmark for the GAC harness (MBPP + HumanEval).
 
-For scoring we call out to the community-standard
-``bigcode-evaluation-harness`` (Apache-2.0). This gives us
-sandboxed pass@k execution without re-implementing the runner.
-
-If ``bigcode-evaluation-harness`` is not installed, the script writes
-completions to disk and exits with instructions.
+This command only generates and stores completions.  Executing
+model-generated Python is deliberately a separate step (``score_code.py``),
+which must be launched inside the repository's Slurm sandbox wrapper.  The
+upstream BigCode harness explicitly warns that its executor is not a security
+sandbox, so scoring must never happen implicitly in this generator or on a
+login node.
 
 Usage:
     python code_bench.py \\
         --model_path <ckpt> --benchmarks mbpp humaneval \\
-        --output_dir ./results --tp_size 4 --n_samples 1
+        --output_dir ./results --tp_size 4 --n_samples 1 --generation_only
 """
 
 from __future__ import annotations
@@ -18,12 +18,11 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import shutil
-import subprocess
 from pathlib import Path
 
 from datasets import load_dataset
 
+from common import public_model_label, require_dataset_size
 from generate_vllm import GenerationConfig, generate
 from prompts import CODE_SYSTEM, humaneval_user_prompt, mbpp_user_prompt
 
@@ -41,6 +40,7 @@ def extract_code(completion: str) -> str:
 
 def _load_humaneval() -> list[dict]:
     ds = load_dataset("openai/openai_humaneval", split="test")
+    require_dataset_size("HumanEval", len(ds), 164)
     return [
         {
             "task_id": row["task_id"],
@@ -54,13 +54,23 @@ def _load_humaneval() -> list[dict]:
     ]
 
 
-def _load_mbpp() -> list[dict]:
-    ds = load_dataset("google-research-datasets/mbpp", "sanitized", split="test")
+def _load_mbpp(config: str = "full") -> list[dict]:
+    """Load the standard 500-question MBPP test split by default.
+
+    ``sanitized`` is kept as an explicit option because it is a commonly used
+    257-question variant, but it is not the 500-question split reported by the
+    paper's MBPP table.
+    """
+    ds = load_dataset("google-research-datasets/mbpp", config, split="test")
+    require_dataset_size(
+        f"MBPP/{config}", len(ds), 500 if config == "full" else 257
+    )
+    text_key = "text" if config == "full" else "prompt"
     return [
         {
             "task_id": f"mbpp_{row['task_id']}",
-            "prompt": mbpp_user_prompt(row["text"], row["test_list"]),
-            "raw_text": row["text"],
+            "prompt": mbpp_user_prompt(row[text_key], row["test_list"]),
+            "raw_text": row[text_key],
             "test_list": row["test_list"],
             "code": row.get("code"),
         }
@@ -84,38 +94,14 @@ def _write_bigcode_generations(
         json.dump(all_gens, f)
 
 
-def _run_bigcode_eval(
-    task: str, gen_path: Path, output_dir: Path
-) -> dict | None:
-    """Call bigcode-evaluation-harness for scoring. Returns metrics dict or None."""
-    if shutil.which("accelerate") is None and shutil.which("python") is None:
-        return None
-    metric_path = output_dir / f"{task}_metrics.json"
-    cmd = [
-        "python", "-m", "bigcode_eval.main",
-        "--tasks", task,
-        "--load_generations_path", str(gen_path),
-        "--allow_code_execution",
-        "--metric_output_path", str(metric_path),
-        "--save_generations",
-    ]
-    try:
-        subprocess.run(cmd, check=True, capture_output=True, text=True)
-    except FileNotFoundError:
-        return None
-    except subprocess.CalledProcessError as e:
-        print(f"[code_bench] bigcode-eval-harness failed for {task}:\n{e.stderr[:500]}")
-        return None
-    if metric_path.exists():
-        with open(metric_path) as f:
-            return json.load(f)
-    return None
-
-
 def run_benchmark(
-    name: str, model_path: str, output_dir: Path, cfg: GenerationConfig
+    name: str,
+    model_path: str,
+    output_dir: Path,
+    cfg: GenerationConfig,
+    mbpp_config: str = "full",
 ) -> dict:
-    items = LOADERS[name]()
+    items = _load_mbpp(mbpp_config) if name == "mbpp" else LOADERS[name]()
     completions = generate(
         [it["prompt"] for it in items], cfg, system_prompt=CODE_SYSTEM
     )
@@ -138,44 +124,31 @@ def run_benchmark(
                 + "\n"
             )
 
-    # Emit bigcode-compatible generations file for scoring.
+    # Emit bigcode-compatible generations file for the separate scorer.
     gen_path = per_bench_dir / "generations.json"
     _write_bigcode_generations(items, completions, gen_path)
 
-    metrics = _run_bigcode_eval(
-        task=name.replace("mbpp", "mbpp").replace("humaneval", "humaneval"),
-        gen_path=gen_path,
-        output_dir=per_bench_dir,
-    )
-
-    if metrics is None:
-        summary = {
-            "benchmark": name,
-            "model_path": model_path,
-            "n_total": len(items),
-            "seed": cfg.seed,
-            "n_samples": cfg.n_samples,
-            "score": None,
-            "note": (
-                "bigcode-evaluation-harness not installed or failed. "
-                "Install with:  git clone https://github.com/bigcode-project/bigcode-evaluation-harness && "
-                "cd bigcode-evaluation-harness && pip install -e ."
-                " Then rerun scoring via:  python -m bigcode_eval.main "
-                f"--tasks {name} --load_generations_path {gen_path} "
-                "--allow_code_execution"
-            ),
-        }
-    else:
-        pass_at_1 = metrics.get(name, {}).get("pass@1")
-        summary = {
-            "benchmark": name,
-            "model_path": model_path,
-            "n_total": len(items),
-            "pass@1": pass_at_1,
-            "raw_metrics": metrics,
-            "seed": cfg.seed,
-            "n_samples": cfg.n_samples,
-        }
+    summary = {
+        "benchmark": name,
+        "model": public_model_label(model_path),
+        "n_total": len(items),
+        "seed": cfg.seed,
+        "n_samples": cfg.n_samples,
+        "status": "generated",
+        "pass@1": None,
+        "data_source": (
+            f"google-research-datasets/mbpp:{mbpp_config}:test"
+            if name == "mbpp"
+            else "openai/openai_humaneval:test"
+        ),
+        # Keep summaries portable and safe to publish; the raw file itself is
+        # intentionally local because it contains benchmark prompts and code.
+        "generations_file": "generations.json",
+        "scoring": (
+            "Run score_code.py through sandbox_code_eval.sh; generated code is "
+            "not executed by this command."
+        ),
+    }
 
     with open(per_bench_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
@@ -196,7 +169,19 @@ def main() -> None:
     p.add_argument("--temperature", type=float, default=0.2)  # code: lower T
     p.add_argument("--top_p", type=float, default=0.95)
     p.add_argument("--max_new_tokens", type=int, default=1024)
+    p.add_argument("--gpu_memory_utilization", type=float, default=0.8)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument(
+        "--mbpp_config",
+        choices=["full", "sanitized"],
+        default="full",
+        help="MBPP test variant; full=500 (paper-aligned), sanitized=257.",
+    )
+    p.add_argument(
+        "--generation_only",
+        action="store_true",
+        help="Accepted for explicitness; code_bench always stops before execution.",
+    )
     args = p.parse_args()
 
     cfg = GenerationConfig(
@@ -206,6 +191,7 @@ def main() -> None:
         temperature=args.temperature,
         top_p=args.top_p,
         max_new_tokens=args.max_new_tokens,
+        gpu_memory_utilization=args.gpu_memory_utilization,
         seed=args.seed,
     )
     out = Path(args.output_dir)
@@ -213,7 +199,9 @@ def main() -> None:
 
     all_summaries = {}
     for name in args.benchmarks:
-        all_summaries[name] = run_benchmark(name, args.model_path, out, cfg)
+        all_summaries[name] = run_benchmark(
+            name, args.model_path, out, cfg, mbpp_config=args.mbpp_config
+        )
 
     with open(out / "code_summary.json", "w") as f:
         json.dump(all_summaries, f, indent=2)

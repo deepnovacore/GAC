@@ -1,7 +1,8 @@
 # Runtime deps for GAC eval harness
 # Install:  pip install -r eval/requirements.txt
 vllm>=0.6.0
-transformers>=4.44
+# Qwen3.5 support requires a current Transformers implementation.
+transformers>=5.0.0
 datasets>=2.20
 math-verify>=0.5.2
 sympy>=1.13

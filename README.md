@@ -40,8 +40,8 @@
 
 - **[2026/08]** 🎉 **GAC has been accepted to EMNLP 2026 Main Conference (Budapest)!**
 - **[2026/08]** 📄 Camera-ready released. Reference implementation open-sourced under Apache-2.0.
-- **[2026/09]** 🚧 *Coming soon*: full training / eval pipeline on top of VeRL + `gac-core` PyPI package.
-- **[2026/09]** 🚧 *Coming soon*: Qwen2.5-1.5B / 7B / 14B GAC checkpoints on HuggingFace.
+- **[2026/09]** 📊 Public checkpoint evaluator released with dataset-size validation and isolated code scoring.
+- **[2026/09]** 🤗 **GAC-Qwen3.5-4B** compact-backbone release prepared for Hugging Face and ModelScope.
 
 ---
 
@@ -145,7 +145,7 @@ where **σ<sub>s</sub>², σ<sub>r</sub>²** are SFT and RL noise variances and 
 ### Install
 
 ```bash
-git clone https://github.com/deepnovacore/GAC.git
+git clone https://github.com/huyuelin/GAC.git
 cd GAC
 pip install -r requirements.txt
 pip install -e .
@@ -201,11 +201,18 @@ That's it. GAC only touches the **weighting between** the SFT and RL losses; it 
 
 ## 🛠️ Reproducing Paper Results
 
-> **⚠️ Status (2026-08)**: This repo currently ships the **reference algorithm** + **full evaluation harness** — controller, hybrid-loss integration point, unit tests, default config matching the paper, and 8-benchmark evaluation pipeline. **Training scripts and pretrained checkpoints are landing in v0.2 (targeted for late 2026-09).** See the [Roadmap](#-roadmap) section below.
+> **Status (2026-09)**: This repo ships the **reference algorithm** and a
+> public checkpoint evaluator, including controller, hybrid-loss integration,
+> unit tests, dataset provenance, aggregate scoring, and isolated code
+> evaluation. Training infrastructure remains separate from the public
+> checkpoint evaluator. See the [Roadmap](#-roadmap) section below.
 
-### Evaluate any Qwen2.5-family checkpoint on the 8 paper benchmarks
+### Evaluate Qwen2.5- and Qwen3.5-family checkpoints
 
-The `eval/` directory ships a self-contained harness that reproduces the numbers in paper Tables 1–4 across **8 benchmarks / 4 domains** — Math (AMC / AIME24 / AIME25), Knowledge (MMLU-Pro / GPQA / SciBench), Code (MBPP / HumanEval), Logic (BBH). Point it at any HuggingFace `AutoModelForCausalLM` directory:
+The `eval/` directory ships a self-contained harness for the reported task
+slices across four domains — Math (AMC / AIME24 / AIME25), Knowledge
+(MMLU-Pro / GPQA / SciBench), Code (MBPP / HumanEval), and Logic (three BBH
+subsets). Point it at a Hugging Face-compatible local directory or hub ID:
 
 ```bash
 cd eval
@@ -213,7 +220,16 @@ pip install -r requirements.txt
 bash run_all.sh --model_path /path/to/your-checkpoint --output_dir ./results --tp_size 4
 ```
 
-On 4×A100/A800, wall-clock is ~90 minutes for a 7B model. See [`eval/README.md`](eval/README.md) for full details, individual-benchmark commands, and multi-seed aggregation.
+See [`eval/README.md`](eval/README.md) for installation, individual
+benchmark commands, dataset provenance, multi-seed aggregation, Slurm usage,
+and the code-execution safety boundary.
+
+### Compact model release
+
+The **GAC-Qwen3.5-4B** model card contains the compact-backbone evaluation
+snapshot, responsible-use notes, and Transformers loading example. The model
+card links back to this evaluator so that weights and evaluation code remain
+separately versioned and easy to audit.
 
 ### Default hyperparameters
 
@@ -242,9 +258,9 @@ All main results report **mean ± std over 3 seeds** with joint significance thr
 
 | Version | Target | Contents |
 |---|---|---|
-| ✅ **v0.1.0** | 2026-08 | Reference `AdaptiveMuController`, hybrid-loss integration, unit tests, default config, **8-benchmark eval harness** |
-| 🚧 **v0.2.0** | 2026-09 | Training pipeline (VeRL fork), public wandb log links |
-| 🚧 **v0.3.0** | 2026-10 | HuggingFace checkpoints (Qwen2.5-1.5B / 7B), `gac-core` on PyPI |
+| ✅ **v0.1.0** | 2026-08 | Reference `AdaptiveMuController`, hybrid-loss integration, unit tests, and paper evaluation harness |
+| ✅ **v0.1.1** | 2026-09 | Public evaluator hardening, isolated code scoring, provenance checks, and compact-model release metadata |
+| 🚧 **v0.2.0** | 2026-09 | Training pipeline (VeRL fork), public training recipe, and `gac-core` packaging |
 | 🚧 **v0.4.0** | 2026-11 | Docker image, 1-command `run.sh` reproduction, external verification runs |
 
 ---
@@ -289,7 +305,7 @@ GAC/
 │   ├── hybrid_loss.py       # Reference hybrid loss (μ·L_SFT + (1-μ)·L_RL)
 │   ├── utils.py             # Length-invariant masked reductions
 │   └── __init__.py
-├── eval/                    # 8-benchmark evaluation harness
+├── eval/                    # Public checkpoint evaluation harness
 │   ├── generate_vllm.py     # Unified vLLM generator
 │   ├── math_bench.py        # AMC / AIME24 / AIME25 (math-verify scoring)
 │   ├── knowledge_bench.py   # MMLU-Pro / GPQA / SciBench

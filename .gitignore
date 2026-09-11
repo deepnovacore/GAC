@@ -33,6 +33,15 @@ outputs/
 *.bin
 *.safetensors
 
+# Evaluator outputs contain benchmark items, model generations, and executable
+# code; keep them local and never commit them to the public repository.
+eval/results/
+eval_runs/
+eval_outputs/
+**/predictions.jsonl
+**/generations.json
+**/execution_results.json
+
 # Environment secrets
 .env
 .env.local

@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use GAC-Qwen3.5-4B, please cite the GAC paper and Qwen3.5."
+title: "GAC-Qwen3.5-4B"
+version: "1.0.0"
+authors:
+  - family-names: Hu
+    given-names: Yuelin
+    affiliation: Shanghai Jiao Tong University
+  - family-names: Liu
+    given-names: Wei
+    affiliation: Shanghai Maritime University
+  - family-names: Yu
+    given-names: Zhenbo
+    affiliation: "Shanghai Jiao Tong University; Novacore"
+  - family-names: Cheng
+    given-names: Zhengxue
+    affiliation: Shanghai Jiao Tong University
+  - family-names: Song
+    given-names: Li
+    affiliation: Shanghai Jiao Tong University
+repository-code: "https://github.com/huyuelin/GAC"
+url: "https://openreview.net/forum?id=VhBpT4iq60"
+preferred-citation:
+  type: conference-paper
+  title: "GAC: Noise-Aware Adaptive Mixing for Hybrid SFT-RL Post-Training"
+  authors:
+    - family-names: Hu
+      given-names: Yuelin
+    - family-names: Liu
+      given-names: Wei
+    - family-names: Yu
+      given-names: Zhenbo
+    - family-names: Cheng
+      given-names: Zhengxue
+    - family-names: Song
+      given-names: Li
+  collection-title: "Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing"
+  year: 2026
+  location:
+    name: Budapest, Hungary
+  url: "https://openreview.net/forum?id=VhBpT4iq60"

@@ -1,0 +1,7 @@
+GAC-Qwen3.5-4B is an adapted post-training checkpoint built on Qwen3.5-4B.
+
+Qwen3.5 is provided by the Qwen team. The upstream model license and notices
+are available at:
+https://huggingface.co/Qwen/Qwen3.5-4B/blob/main/LICENSE
+
+GAC method and release materials are provided under the Apache License 2.0.

@@ -2,7 +2,7 @@
 
 All benchmark scripts (``math_bench.py``, ``knowledge_bench.py``, etc.) delegate
 generation to :func:`generate` below so that sampling settings, chat templating,
-and I/O are consistent across the eight benchmarks reported in the paper.
+and I/O are consistent across the reported task slices.
 
 Sampling defaults (temperature=0.6, top_p=0.95, max_new_tokens=8192) match the
 setup described in Sec. 4.1 of the GAC paper and are aligned with the LUFFY /
@@ -131,6 +131,7 @@ def cli() -> None:
     p.add_argument("--temperature", type=float, default=0.6)
     p.add_argument("--top_p", type=float, default=0.95)
     p.add_argument("--max_new_tokens", type=int, default=8192)
+    p.add_argument("--gpu_memory_utilization", type=float, default=0.8)
     p.add_argument("--seed", type=int, default=0)
     args = p.parse_args()
 
@@ -141,6 +142,7 @@ def cli() -> None:
         temperature=args.temperature,
         top_p=args.top_p,
         max_new_tokens=args.max_new_tokens,
+        gpu_memory_utilization=args.gpu_memory_utilization,
         seed=args.seed,
     )
     records = load_prompts_jsonl(args.prompts_jsonl)

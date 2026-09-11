@@ -12,13 +12,17 @@ numeric/symbolic equivalence, with a string-normalization fallback.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
+import os
 import random
 import re
+import sys
 from pathlib import Path
 
 from datasets import load_dataset
 
+from common import public_model_label, require_dataset_size
 from generate_vllm import GenerationConfig, generate
 from prompts import MCQ_SYSTEM, SCIENCE_SYSTEM, mcq_user_prompt, scibench_user_prompt
 
@@ -58,6 +62,10 @@ def extract_letter(text: str) -> str | None:
 def _load_mmlu_pro(subset_size: int = 1000, seed: int = 42) -> list[dict]:
     """Load a 1000-sample fixed subset of MMLU-Pro (paper: 1k stratified sample)."""
     ds = load_dataset("TIGER-Lab/MMLU-Pro", split="test")
+    if len(ds) < subset_size:
+        raise RuntimeError(
+            f"MMLU-Pro: expected at least {subset_size} test examples, found {len(ds)}"
+        )
     rng = random.Random(seed)
     idxs = list(range(len(ds)))
     rng.shuffle(idxs)
@@ -79,8 +87,39 @@ def _load_mmlu_pro(subset_size: int = 1000, seed: int = 42) -> list[dict]:
     return items
 
 
-def _load_gpqa_diamond() -> list[dict]:
-    ds = load_dataset("Idavidrein/gpqa", "gpqa_diamond", split="train")
+def _load_gpqa_diamond(csv_path: str | None = None) -> tuple[list[dict], str]:
+    """Load GPQA-Diamond from HF or the authors' public CSV mirror.
+
+    The Hugging Face copy is gated.  The authors publish the same split in
+    ``dataset/gpqa_diamond.csv`` in their repository, so callers can provide
+    that file through ``--gpqa_csv`` or ``GAC_GPQA_CSV`` without weakening
+    access controls or changing the benchmark definition.
+    """
+    csv_path = csv_path or os.environ.get("GAC_GPQA_CSV")
+    if csv_path:
+        path = Path(csv_path).expanduser()
+        if not path.is_file():
+            raise FileNotFoundError(f"GPQA CSV not found: {path}")
+        with path.open("r", encoding="utf-8-sig", newline="") as f:
+            rows = list(csv.DictReader(f))
+        require_dataset_size("GPQA-Diamond", len(rows), 198)
+        required = {
+            "Question",
+            "Correct Answer",
+            "Incorrect Answer 1",
+            "Incorrect Answer 2",
+            "Incorrect Answer 3",
+        }
+        missing = sorted(required - set(rows[0] if rows else []))
+        if missing:
+            raise ValueError(f"GPQA CSV missing columns: {missing}")
+        ds = rows
+        source = "csv:provided_file"
+    else:
+        ds = load_dataset("Idavidrein/gpqa", "gpqa_diamond", split="train")
+        require_dataset_size("GPQA-Diamond", len(ds), 198)
+        source = "hf:Idavidrein/gpqa:gpqa_diamond:train"
+
     items = []
     for i, row in enumerate(ds):
         # GPQA has one correct and three incorrect answers as separate columns.
@@ -106,7 +145,7 @@ def _load_gpqa_diamond() -> list[dict]:
                 "options": options_dict,
             }
         )
-    return items
+    return items, source
 
 
 def _score_mcq(completion: str, gold: str) -> bool:
@@ -135,6 +174,7 @@ def _load_scibench() -> list[dict]:
                 "unit": unit,
             }
         )
+    require_dataset_size("SciBench", len(items), 692)
     return items
 
 
@@ -176,10 +216,18 @@ LOADERS = {
 
 
 def run_benchmark(
-    name: str, model_path: str, output_dir: Path, cfg: GenerationConfig
+    name: str,
+    model_path: str,
+    output_dir: Path,
+    cfg: GenerationConfig,
+    gpqa_csv: str | None = None,
 ) -> dict:
     loader, scorer, system_prompt = LOADERS[name]
-    items = loader()
+    source = None
+    if name == "gpqa":
+        items, source = _load_gpqa_diamond(gpqa_csv)
+    else:
+        items = loader()
     completions = generate(
         [it["prompt"] for it in items], cfg, system_prompt=system_prompt
     )
@@ -208,11 +256,16 @@ def run_benchmark(
 
     summary = {
         "benchmark": name,
-        "model_path": model_path,
+        "model": public_model_label(model_path),
         "n_total": len(records),
         "n_correct": correct,
         "accuracy": acc,
         "seed": cfg.seed,
+        "data_source": source
+        or {
+            "mmlu-pro": "hf:TIGER-Lab/MMLU-Pro:test:fixed_seed_42_subset_1000",
+            "scibench": "hf:xw27/scibench:train",
+        }[name],
     }
     with open(per_bench_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
@@ -236,7 +289,13 @@ def main() -> None:
     p.add_argument("--temperature", type=float, default=0.6)
     p.add_argument("--top_p", type=float, default=0.95)
     p.add_argument("--max_new_tokens", type=int, default=8192)
+    p.add_argument("--gpu_memory_utilization", type=float, default=0.8)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument(
+        "--gpqa_csv",
+        default=None,
+        help="Optional authors' GPQA-Diamond CSV mirror; also read from GAC_GPQA_CSV.",
+    )
     args = p.parse_args()
 
     cfg = GenerationConfig(
@@ -246,17 +305,40 @@ def main() -> None:
         temperature=args.temperature,
         top_p=args.top_p,
         max_new_tokens=args.max_new_tokens,
+        gpu_memory_utilization=args.gpu_memory_utilization,
         seed=args.seed,
     )
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
     all_summaries = {}
+    failures = {}
     for name in args.benchmarks:
-        all_summaries[name] = run_benchmark(name, args.model_path, out, cfg)
+        try:
+            all_summaries[name] = run_benchmark(
+                name, args.model_path, out, cfg, gpqa_csv=args.gpqa_csv
+            )
+        except Exception as exc:
+            message = f"{type(exc).__name__}: {exc}"
+            failures[name] = message
+            all_summaries[name] = {
+                "benchmark": name,
+                "model": public_model_label(args.model_path),
+                "seed": args.seed,
+                "status": "failed",
+                "error": message,
+            }
+            print(f"[knowledge_bench] {name}: FAILED — {message}", file=sys.stderr)
 
     with open(out / "knowledge_summary.json", "w") as f:
         json.dump(all_summaries, f, indent=2)
+
+    if failures:
+        print(
+            f"[knowledge_bench] completed with failures: {', '.join(failures)}",
+            file=sys.stderr,
+        )
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

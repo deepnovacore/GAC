@@ -351,9 +351,10 @@ class AdaptiveMuController:
 
         # EMA-smoothed adaptive candidate.
         mu_adaptive = self.ema_beta * self.mu + (1 - self.ema_beta) * mu_raw
-        mu_adaptive = float(
-            torch.clamp(torch.tensor(mu_adaptive), self.mu_min, self.mu_max).item()
-        )
+        # These values are scalar controller state.  Clamp in Python rather
+        # than through a default float32 tensor so an exact boundary such as
+        # ``mu_max=0.8`` cannot become 0.8000000119 and violate strict callers.
+        mu_adaptive = min(max(float(mu_adaptive), self.mu_min), self.mu_max)
 
         # Cosine-prior blend (guided).
         blend = float(max(0.0, min(1.0, blend_weight)))
@@ -368,9 +369,7 @@ class AdaptiveMuController:
             mu_candidate = self.mu + (
                 self.mu_change_cap if delta > 0 else -self.mu_change_cap
             )
-        mu_candidate = float(
-            torch.clamp(torch.tensor(mu_candidate), self.mu_min, self.mu_max).item()
-        )
+        mu_candidate = min(max(float(mu_candidate), self.mu_min), self.mu_max)
         self.mu = mu_candidate
 
         stats = {

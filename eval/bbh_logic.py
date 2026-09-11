@@ -19,6 +19,7 @@ from pathlib import Path
 
 from datasets import load_dataset
 
+from common import public_model_label
 from generate_vllm import GenerationConfig, generate
 from prompts import BBH_LOGIC_SYSTEM, bbh_user_prompt
 
@@ -64,11 +65,15 @@ def score_one(completion: str, gold: str) -> bool:
 
 def load_family(name: str) -> list[dict]:
     items = []
+    failures = []
     for task in FAMILIES[name]:
         try:
             ds = load_dataset("lukaemon/bbh", task, split="test")
         except Exception as e:  # pragma: no cover
-            print(f"[bbh_logic] skip {task} — {e}")
+            failures.append(f"{task}: {type(e).__name__}: {e}")
+            continue
+        if len(ds) != 250:
+            failures.append(f"{task}: expected 250 rows, found {len(ds)}")
             continue
         for i, row in enumerate(ds):
             items.append(
@@ -79,6 +84,11 @@ def load_family(name: str) -> list[dict]:
                     "gold": str(row["target"]),
                 }
             )
+    if failures:
+        raise RuntimeError(
+            "BBH dataset validation failed; refusing a misleading partial score:\n"
+            + "\n".join(failures)
+        )
     return items
 
 
@@ -115,11 +125,14 @@ def run_family(
 
     summary = {
         "benchmark": name,
-        "model_path": model_path,
+        "model": public_model_label(model_path),
         "n_total": len(records),
         "n_correct": correct,
         "accuracy": acc,
         "seed": cfg.seed,
+        "data_source": ",".join(
+            f"lukaemon/bbh:{task}:test" for task in FAMILIES[name]
+        ),
     }
     with open(per_bench_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
@@ -143,6 +156,7 @@ def main() -> None:
     p.add_argument("--temperature", type=float, default=0.6)
     p.add_argument("--top_p", type=float, default=0.95)
     p.add_argument("--max_new_tokens", type=int, default=4096)
+    p.add_argument("--gpu_memory_utilization", type=float, default=0.8)
     p.add_argument("--seed", type=int, default=0)
     args = p.parse_args()
 
@@ -153,6 +167,7 @@ def main() -> None:
         temperature=args.temperature,
         top_p=args.top_p,
         max_new_tokens=args.max_new_tokens,
+        gpu_memory_utilization=args.gpu_memory_utilization,
         seed=args.seed,
     )
     out = Path(args.output_dir)
