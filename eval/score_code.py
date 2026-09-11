@@ -21,6 +21,8 @@ from pathlib import Path
 
 from datasets import load_dataset
 
+from common import require_dataset_size
+
 
 def _load_generations(path: Path) -> list[list[str]]:
     with path.open("r", encoding="utf-8") as f:
@@ -40,6 +42,7 @@ def _load_generations(path: Path) -> list[list[str]]:
 def _load_references(name: str, mbpp_config: str) -> tuple[list[str], str]:
     if name == "humaneval":
         ds = load_dataset("openai/openai_humaneval", split="test")
+        require_dataset_size("HumanEval", len(ds), 164)
         references = [
             "\n" + row["test"] + "\n" + f"check({row['entry_point']})"
             for row in ds
@@ -49,6 +52,9 @@ def _load_references(name: str, mbpp_config: str) -> tuple[list[str], str]:
     if name == "mbpp":
         ds = load_dataset(
             "google-research-datasets/mbpp", mbpp_config, split="test"
+        )
+        require_dataset_size(
+            f"MBPP/{mbpp_config}", len(ds), 500 if mbpp_config == "full" else 257
         )
         references = ["\n".join(row["test_list"]) for row in ds]
         return references, f"google-research-datasets/mbpp:{mbpp_config}:test"

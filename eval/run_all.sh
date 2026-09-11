@@ -65,7 +65,7 @@ run_stage() {
 
 echo "==============================================================="
 echo "GAC eval harness"
-echo "  model_path : $MODEL_PATH"
+echo "  model      : ${MODEL_PATH##*/}"
 echo "  output_dir : $OUTPUT_DIR"
 echo "  tp_size    : $TP_SIZE"
 echo "  seed       : $SEED"

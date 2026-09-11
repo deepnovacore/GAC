@@ -1,21 +1,36 @@
 {
   "release": "GAC-Qwen3.5-4B",
   "backbone": "Qwen3.5-4B-Base",
-  "evaluation_protocol": "fixed benchmark snapshot supplied for the public compact-backbone release",
-  "comparison_note": "Paper reference is the original Qwen2.5-7B-Instruct GAC + Token-phi result; base and GAC are compact-backbone snapshots and are not a paired multi-seed comparison.",
+  "evaluation_protocol": {
+    "type": "fixed single-snapshot evaluation",
+    "reporting": "accuracy percentages",
+    "n_samples": 1,
+    "decoding": {
+      "math_knowledge_science_bbh": {"temperature": 0.6, "top_p": 0.95},
+      "code": {"temperature": 0.2, "top_p": 0.95}
+    },
+    "scoring": {
+      "math": "math-verify",
+      "multiple_choice": "strict answer-letter match",
+      "scibench": "SymPy equivalence with numeric fallback",
+      "code": "isolated pass@1 execution",
+      "bbh": "normalized exact match"
+    }
+  },
+  "comparison_note": "Base and GAC are compact-backbone snapshots, not a paired multi-seed statistical comparison. The original paper uses a different Qwen2.5-7B backbone.",
   "metrics": [
-    {"domain": "Mathematics", "benchmark": "AMC", "paper_gac_token_phi": 67.2, "qwen35_4b_base": 19.3, "gac_ours": 67.3},
-    {"domain": "Mathematics", "benchmark": "AIME24", "paper_gac_token_phi": 20.8, "qwen35_4b_base": 0.0, "gac_ours": 26.7},
-    {"domain": "Mathematics", "benchmark": "AIME25", "paper_gac_token_phi": 19.8, "qwen35_4b_base": 3.3, "gac_ours": 19.8},
-    {"domain": "Knowledge", "benchmark": "MMLU-Pro", "paper_gac_token_phi": 58.6, "qwen35_4b_base": 58.3, "gac_ours": 74.2},
-    {"domain": "Science", "benchmark": "GPQA-Diamond", "paper_gac_token_phi": 43.5, "qwen35_4b_base": 29.3, "gac_ours": 64.1},
-    {"domain": "Science", "benchmark": "SciBench", "paper_gac_token_phi": 41.2, "qwen35_4b_base": 11.4, "gac_ours": 60.1},
-    {"domain": "Code", "benchmark": "MBPP", "paper_gac_token_phi": 78.8, "qwen35_4b_base": 67.6, "gac_ours": 74.6},
-    {"domain": "Code", "benchmark": "HumanEval", "paper_gac_token_phi": 83.5, "qwen35_4b_base": 67.7, "gac_ours": 81.3},
-    {"domain": "Logic", "benchmark": "BBH Logical Deduction", "paper_gac_token_phi": 66.5, "qwen35_4b_base": 86.3, "gac_ours": 93.1},
-    {"domain": "Logic", "benchmark": "BBH Object Counting", "paper_gac_token_phi": 70.9, "qwen35_4b_base": 93.2, "gac_ours": 92.8},
-    {"domain": "Logic", "benchmark": "BBH Tracking", "paper_gac_token_phi": 59.7, "qwen35_4b_base": 97.6, "gac_ours": 95.3},
-    {"domain": "Logic", "benchmark": "BBH average", "paper_gac_token_phi": 65.7, "qwen35_4b_base": 92.4, "gac_ours": 90.4}
+    {"domain": "Mathematics", "benchmark": "AMC", "n_examples": 83, "qwen35_4b_base": 19.3, "gac_release": 67.3},
+    {"domain": "Mathematics", "benchmark": "AIME24", "n_examples": 30, "qwen35_4b_base": 0.0, "gac_release": 26.7},
+    {"domain": "Mathematics", "benchmark": "AIME25", "n_examples": 30, "qwen35_4b_base": 3.3, "gac_release": 19.8},
+    {"domain": "Knowledge", "benchmark": "MMLU-Pro", "n_examples": 1000, "qwen35_4b_base": 58.3, "gac_release": 74.2},
+    {"domain": "Science", "benchmark": "GPQA-Diamond", "n_examples": 198, "qwen35_4b_base": 29.3, "gac_release": 64.1},
+    {"domain": "Science", "benchmark": "SciBench", "n_examples": 692, "qwen35_4b_base": 11.4, "gac_release": 60.1},
+    {"domain": "Code", "benchmark": "MBPP", "n_examples": 500, "qwen35_4b_base": 67.6, "gac_release": 74.6},
+    {"domain": "Code", "benchmark": "HumanEval", "n_examples": 164, "qwen35_4b_base": 67.7, "gac_release": 81.3},
+    {"domain": "Logic", "benchmark": "BBH Logical Deduction", "n_examples": 750, "qwen35_4b_base": 86.3, "gac_release": 93.1},
+    {"domain": "Logic", "benchmark": "BBH Object Counting", "n_examples": 250, "qwen35_4b_base": 93.2, "gac_release": 92.8},
+    {"domain": "Logic", "benchmark": "BBH Tracking", "n_examples": 750, "qwen35_4b_base": 97.6, "gac_release": 95.3},
+    {"domain": "Logic", "benchmark": "BBH average", "n_examples": 1750, "aggregation": "macro-average over the three BBH slices", "qwen35_4b_base": 92.4, "gac_release": 93.7}
   ],
-  "data_cleaning_note": "The supplied MBPP GAC entry contained the marker '6=74.6%'; it was normalized to 74.6% for this release metadata."
+  "data_cleaning_note": "The MBPP GAC value was normalized to 74.6% from the supplied evaluation tabulation. The GAC BBH macro-average was recomputed from the three displayed slice values (93.1%, 92.8%, and 95.3%) and rounded to 93.7%."
 }

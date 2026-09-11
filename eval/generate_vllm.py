@@ -42,7 +42,9 @@ class GenerationConfig:
     seed: int = 0
     chat_template: str | None = None
     apply_chat_template: bool = True
-    trust_remote_code: bool = True
+    # Qwen3.5 is natively supported by current Transformers/vLLM builds.
+    # Keep remote-code execution opt-in for arbitrary user-supplied models.
+    trust_remote_code: bool = False
 
 
 def _render_prompts(
@@ -133,6 +135,11 @@ def cli() -> None:
     p.add_argument("--max_new_tokens", type=int, default=8192)
     p.add_argument("--gpu_memory_utilization", type=float, default=0.8)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument(
+        "--trust_remote_code",
+        action="store_true",
+        help="Opt in only when the selected model explicitly requires custom remote code.",
+    )
     args = p.parse_args()
 
     cfg = GenerationConfig(
@@ -144,6 +151,7 @@ def cli() -> None:
         max_new_tokens=args.max_new_tokens,
         gpu_memory_utilization=args.gpu_memory_utilization,
         seed=args.seed,
+        trust_remote_code=args.trust_remote_code,
     )
     records = load_prompts_jsonl(args.prompts_jsonl)
     prompts = [r["prompt"] for r in records]

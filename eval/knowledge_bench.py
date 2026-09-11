@@ -72,9 +72,18 @@ def _load_mmlu_pro(subset_size: int = 1000, seed: int = 42) -> list[dict]:
     items = []
     for i in idxs[:subset_size]:
         row = ds[i]
-        options = {chr(65 + j): opt for j, opt in enumerate(row["options"])}
+        raw_options = row["options"]
+        if not isinstance(raw_options, (list, tuple)) or len(raw_options) != 10:
+            raise RuntimeError(
+                f"MMLU-Pro row {i}: expected 10 options, found "
+                f"{len(raw_options) if isinstance(raw_options, (list, tuple)) else type(raw_options).__name__}"
+            )
+        answer_index = int(row["answer_index"])
+        if not 0 <= answer_index < len(raw_options):
+            raise RuntimeError(f"MMLU-Pro row {i}: invalid answer_index={answer_index}")
+        options = {chr(65 + j): opt for j, opt in enumerate(raw_options)}
         # answer_index in MMLU-Pro is 0-indexed integer
-        gold_letter = chr(65 + int(row["answer_index"]))
+        gold_letter = chr(65 + answer_index)
         items.append(
             {
                 "id": f"mmlu-pro_{i}",
@@ -161,7 +170,11 @@ def _load_scibench() -> list[dict]:
     items = []
     for i, row in enumerate(ds):
         problem = row.get("problem_text") or row.get("problem") or row.get("question")
-        gold = row.get("answer_number") or row.get("answer") or row.get("gold_answer")
+        gold = row.get("answer_number")
+        if gold is None:
+            gold = row.get("answer")
+        if gold is None:
+            gold = row.get("gold_answer")
         unit = row.get("unit")
         if problem is None or gold is None:
             continue

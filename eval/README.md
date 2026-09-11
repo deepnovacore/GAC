@@ -13,9 +13,10 @@ This directory contains the checkpoint evaluation pipeline used to reproduce the
 
 **Generation** is unified via `generate_vllm.py` — a single vLLM-based
 generator that takes a prompt file (jsonl), a system template, and produces
-raw completions. This keeps sampling settings consistent across the reported
-task slices (temperature = 0.6, top-p = 0.95, max_new_tokens = 8192 for the
-reasoning setup).
+raw completions. Reasoning-oriented slices use temperature = 0.6, top-p =
+0.95, and max_new_tokens = 8192. Code generation deliberately uses a lower
+temperature (0.2) and max_new_tokens = 1024; the exact settings are shown in
+the model-card protocol table.
 
 **Scoring** uses domain-appropriate tooling:
 
@@ -51,8 +52,9 @@ bash run_all.sh \
     --seed 0
 ```
 
-Runs all reported task slices sequentially. For Qwen3.5, use a current vLLM
-build that explicitly supports the Qwen3.5 architecture. On a multi-user
+Runs all reported task slices sequentially. For Qwen3.5, use Transformers 5.10.4
+or newer and a current vLLM build that explicitly supports the Qwen3.5
+architecture. On a multi-user
 cluster, submit the command through the scheduler and let Slurm manage GPU
 visibility; do not hand-edit `CUDA_VISIBLE_DEVICES`.
 
@@ -136,7 +138,7 @@ Benchmark datasets are auto-downloaded from HuggingFace on first run and cached 
 
 | Benchmark | HuggingFace dataset ID | Split |
 |---|---|---|
-| AMC | `AI-MO/aimo-validation-amc` | test (83 problems) |
+| AMC | `AI-MO/aimo-validation-amc` | train (83 problems) |
 | AIME24 | `HuggingFaceH4/aime_2024` | train (30 problems) |
 | AIME25 | `math-ai/aime25` | test (30 problems) |
 | MMLU-Pro | `TIGER-Lab/MMLU-Pro` | test (12k problems, we use 1k-sample fixed subset) |
@@ -165,6 +167,9 @@ results/
 ## Notes on scoring caveats
 
 - **`math-verify`** returns `True/False/None`. `None` means the parser could not extract a candidate from the completion; we count these as incorrect (matching LUFFY / DeepSeek convention).
+- With the default `n_samples=1`, all reported task scores are pass@1-style
+  single-sample scores. If `n_samples > 1`, the non-code scorers use the best
+  correct completion for each item; do not compare that setting to pass@1.
 - **Code eval** requires execution of generated Python. `code_bench.py` never executes it; use `sandbox_code_eval.sh` from a Slurm CPU allocation. The wrapper requires offline HF cache access, disables network, hides common private roots plus any paths passed with `--hide_path`, and exposes only the exact evaluator/cache/output mounts. Do not replace it with a direct `--allow_code_execution` invocation.
 - **SymPy fallback** on SciBench uses `sympy.simplify(gold - pred)`; a return of `0` means match. If SymPy raises, we fall back to string comparison after `.replace(' ', '')`.
 
