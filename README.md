@@ -209,10 +209,13 @@ That's it. GAC only touches the **weighting between** the SFT and RL losses; it 
 
 ### Evaluate Qwen2.5- and Qwen3.5-family checkpoints
 
-The `eval/` directory ships a self-contained harness for the reported task
+The `eval/` directory ships a public checkpoint harness for the reported task
 slices across four domains — Math (AMC / AIME24 / AIME25), Knowledge
 (MMLU-Pro / GPQA / SciBench), Code (MBPP / HumanEval), and Logic (three BBH
-subsets). Point it at a Hugging Face-compatible local directory or hub ID:
+subsets). MMLU-Pro uses a pinned dataset revision and a checked-in 1,000-ID
+manifest. GPQA requires Hugging Face dataset access or a user-provided CSV;
+GPQA data is not bundled. Point the harness at a Hugging Face-compatible
+local directory or hub ID:
 
 ```bash
 cd eval

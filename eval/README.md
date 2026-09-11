@@ -1,6 +1,9 @@
 # GAC Evaluation Harness
 
-This directory contains the checkpoint evaluation pipeline used to reproduce the numbers reported in the GAC paper (Tables 1–4). It covers **11 reported task slices from 9 dataset families across 4 domains**:
+This directory contains the public checkpoint evaluation pipeline for GAC's
+benchmark families and the Qwen3.5-4B release. It covers **11 reported task
+slices from 9 dataset families across 4 domains**. Dataset access and sampling
+are specified below; GPQA requires separate access.
 
 | Domain | Benchmarks | Script |
 |---|---|---|
@@ -24,7 +27,7 @@ the model-card protocol table.
 |---|---|---|
 | Math | [`math-verify`](https://github.com/huggingface/Math-Verify) | Canonical for AIME/AMC/MATH — the same scorer used by DeepSeek-R1, Qwen2.5-Math, LUFFY. Avoids false negatives from equivalent-but-formatted-differently answers (e.g. `\frac{1}{2}` vs `0.5`). |
 | Code | [`bigcode-evaluation-harness`](https://github.com/bigcode-project/bigcode-evaluation-harness) + `sandbox_code_eval.sh` | Canonical pass@k execution in a Slurm CPU job with user/mount/network/PID isolation. The upstream executor alone is **not** a sandbox. |
-| Multi-choice (MMLU-Pro, GPQA) | In-house letter matcher | Regex-extract `\boxed{}` / final "The answer is (X)" answer letter; strict A/B/C/D match. |
+| Multi-choice (MMLU-Pro, GPQA) | In-house letter matcher | Regex-extract `\boxed{}` / final "The answer is (X)" answer letter; strict letter match (A–J for MMLU-Pro, A–D for GPQA). |
 | Open-ended (SciBench) | In-house SymPy checker + numeric/string fallback | SciBench answers are numeric or symbolic expressions; no external judge is silently introduced. |
 | BBH-Logic | In-house exact-match (case-insensitive, whitespace-normalized) | BBH answers are short strings ("(A)", "yes", "3") — exact match after normalization is standard. |
 
@@ -134,19 +137,70 @@ Expected numbers for `GAC + Token-φ` on Qwen2.5-7B:
 
 ## Data
 
-Benchmark datasets are auto-downloaded from HuggingFace on first run and cached under `~/.cache/huggingface/`. Sources:
+Public benchmark datasets are downloaded from Hugging Face on first run.
+Set `HF_HOME` to a data volume with sufficient space before downloading;
+otherwise the default cache is `~/.cache/huggingface/`. GPQA additionally
+requires dataset access or a user-provided CSV. Sources:
 
 | Benchmark | HuggingFace dataset ID | Split |
 |---|---|---|
 | AMC | `AI-MO/aimo-validation-amc` | train (83 problems) |
 | AIME24 | `HuggingFaceH4/aime_2024` | train (30 problems) |
 | AIME25 | `math-ai/aime25` | test (30 problems) |
-| MMLU-Pro | `TIGER-Lab/MMLU-Pro` | test (12k problems, we use 1k-sample fixed subset) |
-| GPQA | authors' public `gpqa_diamond.csv` (HF is gated) | 198 diamond problems |
+| MMLU-Pro | `TIGER-Lab/MMLU-Pro`, revision `b189ec765aa7ed75c8acfea42df31fdae71f97be` | `default/test`, 1,000 manifest-selected IDs from 12,032 problems |
+| GPQA | gated `Idavidrein/gpqa` or a user-provided, lawfully obtained CSV | `gpqa_diamond/train`, all 198 problems; no GPQA data bundled |
 | SciBench | `xw27/scibench` | train (692 problems in the cached release) |
 | MBPP | `google-research-datasets/mbpp` | `full/test` (500 problems; `sanitized/test` has 257) |
 | HumanEval | `openai/openai_humaneval` | test (164 problems) |
 | BBH | `lukaemon/bbh` | 7 task configs × 250 test problems; three family averages |
+
+### Fixed MMLU-Pro subset
+
+The checked-in [manifest](manifests/mmlu_pro_test_b189ec765aa7ed75c8acfea42df31fdae71f97be.json)
+records all 1,000 `question_id` values in evaluation order, their categories
+and option counts, the dataset revision, and sampling metadata. It was
+constructed with the earlier evaluator's algorithm: shuffle all test-row
+indices with `random.Random(42)` and take the first 1,000. This is a fixed
+pseudorandom sample, **not a stratified sample**. The generation `--seed`
+does not change the subset.
+
+The pinned full split contains questions with 3–10 options. The selected
+subset has 827 questions with 10 options and 173 with 4–9 options. All selected
+questions are evaluated with their actual options; none are padded or removed.
+The loader validates option counts, category, unique IDs and answer-index
+bounds. It resolves IDs from the manifest, so reordering dataset rows does
+not change evaluation order. Summaries record the dataset revision and
+manifest SHA-256; prediction IDs use `question_id` rather than row offsets.
+
+This manifest freezes the public protocol for subsequent runs. Earlier runs
+did not record a dataset revision, so the manifest by itself cannot establish
+which revision those runs used. Regenerate predictions when validating an
+earlier aggregate score against this frozen protocol.
+
+Validate the download and all 1,000 selected rows on CPU before reserving GPUs
+(requires `datasets`, but does not import vLLM or load a model):
+
+```bash
+python knowledge_bench.py --check_data --benchmarks mmlu-pro
+```
+
+### GPQA access
+
+Obtain access through the [official GPQA dataset page](https://huggingface.co/datasets/Idavidrein/gpqa),
+then authenticate with `hf auth login` (or set `HF_TOKEN` securely). The
+evaluator uses that authentication through the Hugging Face datasets library.
+Alternatively, pass a complete Diamond CSV that you have lawfully obtained:
+
+```bash
+python knowledge_bench.py --check_data --benchmarks gpqa \
+    --gpqa_csv /path/to/gpqa_diamond.csv
+```
+
+The same `--gpqa_csv` option applies to evaluation, and `run_all.sh` accepts
+the path through `GAC_GPQA_CSV`. Required columns are `Question`, `Correct Answer`,
+and `Incorrect Answer 1`, `Incorrect Answer 2`, `Incorrect Answer 3`. The loader
+requires 198 rows and records a CSV SHA-256 without exposing its local path.
+No GPQA CSV or alternative data mirror is included in a clean checkout.
 
 Prompt templates are in `prompts.py`. The generator uses the checkpoint's own
 chat template, so the same harness can evaluate Qwen2.5-family checkpoints and

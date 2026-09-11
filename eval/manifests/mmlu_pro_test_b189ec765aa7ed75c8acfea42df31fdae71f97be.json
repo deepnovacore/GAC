@@ -1,0 +1,5039 @@
+{
+  "dataset": "TIGER-Lab/MMLU-Pro",
+  "config": "default",
+  "split": "test",
+  "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+  "dataset_size": 12032,
+  "seed": 42,
+  "sample_size": 1000,
+  "id_field": "question_id",
+  "selection": "random.Random(seed) shuffle of all rows, first sample_size; freezes the earlier selection algorithm on this revision",
+  "option_policy": "accept 3-10 options as present in the pinned revision; validate answer_index",
+  "category_counts": {
+    "biology": 56,
+    "business": 65,
+    "chemistry": 95,
+    "computer science": 36,
+    "economics": 77,
+    "engineering": 86,
+    "health": 77,
+    "history": 30,
+    "law": 89,
+    "math": 121,
+    "other": 67,
+    "philosophy": 37,
+    "physics": 89,
+    "psychology": 75
+  },
+  "option_count_distribution": {
+    "10": 827,
+    "4": 45,
+    "5": 5,
+    "6": 6,
+    "7": 14,
+    "8": 29,
+    "9": 74
+  },
+  "entries": [
+    {
+      "question_id": 10024,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5088,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 7070,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 556,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 1496,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 3320,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 473,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 6570,
+      "category": "health",
+      "n_options": 9
+    },
+    {
+      "question_id": 7562,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2854,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8486,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11489,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 2503,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 688,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 5136,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 8930,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3079,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 12113,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10343,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8802,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 783,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 5874,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 7511,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3917,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11562,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 7847,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3739,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 9795,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 12104,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 2457,
+      "category": "psychology",
+      "n_options": 4
+    },
+    {
+      "question_id": 4906,
+      "category": "history",
+      "n_options": 6
+    },
+    {
+      "question_id": 11886,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 5396,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 1290,
+      "category": "law",
+      "n_options": 4
+    },
+    {
+      "question_id": 10452,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 11847,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 8147,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 1540,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 11733,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 8676,
+      "category": "math",
+      "n_options": 9
+    },
+    {
+      "question_id": 4090,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 7497,
+      "category": "economics",
+      "n_options": 9
+    },
+    {
+      "question_id": 7490,
+      "category": "economics",
+      "n_options": 6
+    },
+    {
+      "question_id": 3763,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6035,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 281,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 10852,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 7807,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 9030,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 10306,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3878,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 791,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 8369,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 7793,
+      "category": "math",
+      "n_options": 4
+    },
+    {
+      "question_id": 1610,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 12122,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 3944,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2782,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 627,
+      "category": "business",
+      "n_options": 9
+    },
+    {
+      "question_id": 4901,
+      "category": "history",
+      "n_options": 9
+    },
+    {
+      "question_id": 11879,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10510,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 11343,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11211,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 7737,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 10582,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 10478,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 7648,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6643,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 7407,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8266,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2106,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6332,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 854,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 2046,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 3206,
+      "category": "biology",
+      "n_options": 4
+    },
+    {
+      "question_id": 6931,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 4709,
+      "category": "history",
+      "n_options": 9
+    },
+    {
+      "question_id": 7771,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 4784,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 11384,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 3454,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7260,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7246,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2651,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 9735,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9350,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5973,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 10832,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 2340,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4663,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6061,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 1612,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 4732,
+      "category": "history",
+      "n_options": 4
+    },
+    {
+      "question_id": 4063,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 4876,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 12183,
+      "category": "engineering",
+      "n_options": 9
+    },
+    {
+      "question_id": 8895,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6209,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 10520,
+      "category": "computer science",
+      "n_options": 6
+    },
+    {
+      "question_id": 6508,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 7964,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 12181,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11899,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 8955,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 4742,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 1781,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 2005,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8024,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2470,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 3364,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8638,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3672,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 176,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 10689,
+      "category": "computer science",
+      "n_options": 7
+    },
+    {
+      "question_id": 7804,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 5434,
+      "category": "other",
+      "n_options": 4
+    },
+    {
+      "question_id": 6539,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 3975,
+      "category": "chemistry",
+      "n_options": 4
+    },
+    {
+      "question_id": 4993,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 2093,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8719,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 7519,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6994,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3417,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11567,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 1239,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 4777,
+      "category": "history",
+      "n_options": 4
+    },
+    {
+      "question_id": 6605,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 4949,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 6850,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 10447,
+      "category": "computer science",
+      "n_options": 9
+    },
+    {
+      "question_id": 4468,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6639,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 1817,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 146,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 1602,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 7241,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1562,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 4804,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 4728,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 11815,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11269,
+      "category": "philosophy",
+      "n_options": 4
+    },
+    {
+      "question_id": 9571,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8787,
+      "category": "math",
+      "n_options": 8
+    },
+    {
+      "question_id": 6494,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 9779,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 11076,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 1947,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 5480,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 3616,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 4454,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 3298,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 3017,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6256,
+      "category": "health",
+      "n_options": 4
+    },
+    {
+      "question_id": 10454,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 1300,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 10992,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 3307,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 265,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 6641,
+      "category": "health",
+      "n_options": 4
+    },
+    {
+      "question_id": 3249,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6588,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 4347,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2731,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7730,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3667,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 4280,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5492,
+      "category": "other",
+      "n_options": 4
+    },
+    {
+      "question_id": 3109,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7853,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 1135,
+      "category": "law",
+      "n_options": 4
+    },
+    {
+      "question_id": 9648,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7279,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3228,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 10400,
+      "category": "computer science",
+      "n_options": 8
+    },
+    {
+      "question_id": 10909,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 2734,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 2198,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 1969,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 3605,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2412,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4907,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 613,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 8746,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2313,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 366,
+      "category": "business",
+      "n_options": 6
+    },
+    {
+      "question_id": 1442,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 4354,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 4319,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11731,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10479,
+      "category": "computer science",
+      "n_options": 5
+    },
+    {
+      "question_id": 754,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 8317,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 1900,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 6268,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 1237,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 11039,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 316,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 7876,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 5801,
+      "category": "other",
+      "n_options": 7
+    },
+    {
+      "question_id": 1845,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 1971,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 7167,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1188,
+      "category": "law",
+      "n_options": 7
+    },
+    {
+      "question_id": 6579,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 3481,
+      "category": "biology",
+      "n_options": 9
+    },
+    {
+      "question_id": 1366,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 7103,
+      "category": "economics",
+      "n_options": 9
+    },
+    {
+      "question_id": 1836,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 9369,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10672,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 7482,
+      "category": "economics",
+      "n_options": 8
+    },
+    {
+      "question_id": 8751,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 7928,
+      "category": "math",
+      "n_options": 9
+    },
+    {
+      "question_id": 3725,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6022,
+      "category": "health",
+      "n_options": 5
+    },
+    {
+      "question_id": 12143,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11038,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 654,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 10052,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1728,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 4575,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 1198,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 1170,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 9436,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9742,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6637,
+      "category": "health",
+      "n_options": 5
+    },
+    {
+      "question_id": 1022,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 5633,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 305,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 1074,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 958,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 6520,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 5726,
+      "category": "other",
+      "n_options": 9
+    },
+    {
+      "question_id": 5184,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 3286,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7135,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 212,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 11346,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 12226,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9852,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6488,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 8231,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11552,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11065,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 11962,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9216,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6947,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6595,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 9404,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9105,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3406,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4589,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 304,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 8136,
+      "category": "math",
+      "n_options": 8
+    },
+    {
+      "question_id": 2725,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 10570,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 7223,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6820,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 8262,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 731,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 1197,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 2479,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11164,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 3972,
+      "category": "chemistry",
+      "n_options": 4
+    },
+    {
+      "question_id": 1918,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 1410,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 8939,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8700,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6574,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 5660,
+      "category": "other",
+      "n_options": 4
+    },
+    {
+      "question_id": 5319,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 7183,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7413,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 4425,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6529,
+      "category": "health",
+      "n_options": 9
+    },
+    {
+      "question_id": 101,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 10151,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2792,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7306,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 3541,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 993,
+      "category": "law",
+      "n_options": 4
+    },
+    {
+      "question_id": 8417,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 7455,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 9399,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1843,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 10398,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 7354,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 173,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 7767,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 290,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 1895,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 6310,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 5450,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 2546,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 1608,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 5410,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 11353,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 7268,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8221,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 5221,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 12221,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 7895,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8122,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8762,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11071,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 3573,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2300,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 878,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 6210,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 4733,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 9331,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8544,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6925,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 5496,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 4065,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 769,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 7787,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2348,
+      "category": "psychology",
+      "n_options": 8
+    },
+    {
+      "question_id": 1581,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 215,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 8962,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3458,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 5442,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 4383,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11951,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 2380,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6944,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3309,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4377,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 1334,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 8532,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 12148,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 2274,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 135,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 5710,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 805,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 2016,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 5999,
+      "category": "other",
+      "n_options": 9
+    },
+    {
+      "question_id": 10631,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 5977,
+      "category": "other",
+      "n_options": 8
+    },
+    {
+      "question_id": 9695,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10268,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8297,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11518,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 6087,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 828,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 11044,
+      "category": "philosophy",
+      "n_options": 4
+    },
+    {
+      "question_id": 8977,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6492,
+      "category": "health",
+      "n_options": 9
+    },
+    {
+      "question_id": 3015,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 721,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 10155,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1289,
+      "category": "law",
+      "n_options": 4
+    },
+    {
+      "question_id": 12001,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 5847,
+      "category": "other",
+      "n_options": 8
+    },
+    {
+      "question_id": 9725,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5152,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 5663,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 7071,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 4801,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 1694,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 7448,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 12022,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9916,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7022,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2992,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 482,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 11242,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 6662,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 8882,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 153,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 5854,
+      "category": "other",
+      "n_options": 8
+    },
+    {
+      "question_id": 7620,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8370,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 1927,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 705,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 3738,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2248,
+      "category": "psychology",
+      "n_options": 8
+    },
+    {
+      "question_id": 291,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 1624,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 8537,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3207,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7274,
+      "category": "economics",
+      "n_options": 8
+    },
+    {
+      "question_id": 9359,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3023,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4439,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 9182,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10315,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8586,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 1336,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 2272,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 7203,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 4385,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11236,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 4490,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6999,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9905,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 11686,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9283,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 121,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 5337,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 8873,
+      "category": "math",
+      "n_options": 4
+    },
+    {
+      "question_id": 5070,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 1224,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 6477,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 6459,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 8308,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 888,
+      "category": "law",
+      "n_options": 4
+    },
+    {
+      "question_id": 6998,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8434,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11442,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9756,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8385,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2111,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 1217,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 8644,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 9506,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1855,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 9312,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 11191,
+      "category": "philosophy",
+      "n_options": 9
+    },
+    {
+      "question_id": 1661,
+      "category": "law",
+      "n_options": 4
+    },
+    {
+      "question_id": 5006,
+      "category": "history",
+      "n_options": 9
+    },
+    {
+      "question_id": 402,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 11791,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 2541,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 1831,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 11511,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 5116,
+      "category": "other",
+      "n_options": 9
+    },
+    {
+      "question_id": 5071,
+      "category": "other",
+      "n_options": 7
+    },
+    {
+      "question_id": 983,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 10232,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10322,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 4735,
+      "category": "history",
+      "n_options": 4
+    },
+    {
+      "question_id": 9502,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3646,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6829,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5344,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 8015,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6880,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6954,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9061,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8617,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8343,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3557,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5836,
+      "category": "other",
+      "n_options": 7
+    },
+    {
+      "question_id": 9489,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 12129,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9050,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 11455,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 6589,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 2384,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 11475,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 4866,
+      "category": "history",
+      "n_options": 8
+    },
+    {
+      "question_id": 1083,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 10530,
+      "category": "computer science",
+      "n_options": 4
+    },
+    {
+      "question_id": 11570,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10326,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3303,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8876,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3685,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5251,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 10365,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 4085,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 10001,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3792,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11863,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11643,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 4118,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6616,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 3704,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 913,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 8559,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 1445,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 11018,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 957,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 411,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 452,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 3724,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 10140,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6989,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 8855,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8740,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 5601,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 9734,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 12151,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 4236,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 499,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 2652,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 1643,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 8887,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3791,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11981,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 3918,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6505,
+      "category": "health",
+      "n_options": 4
+    },
+    {
+      "question_id": 7148,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6495,
+      "category": "health",
+      "n_options": 4
+    },
+    {
+      "question_id": 7075,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7053,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2386,
+      "category": "psychology",
+      "n_options": 4
+    },
+    {
+      "question_id": 11241,
+      "category": "philosophy",
+      "n_options": 9
+    },
+    {
+      "question_id": 1816,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 5837,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 6682,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 3181,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11194,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 8390,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 9995,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2326,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7464,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1019,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 579,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 12249,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 8114,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6745,
+      "category": "health",
+      "n_options": 9
+    },
+    {
+      "question_id": 8462,
+      "category": "math",
+      "n_options": 8
+    },
+    {
+      "question_id": 9740,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2602,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 10107,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 4147,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2059,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11445,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10921,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 2959,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 5714,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 11771,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 12189,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 512,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 8041,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6678,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 7242,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 554,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 4080,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5760,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 11637,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9847,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7426,
+      "category": "economics",
+      "n_options": 9
+    },
+    {
+      "question_id": 2844,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 12238,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 3145,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4158,
+      "category": "chemistry",
+      "n_options": 9
+    },
+    {
+      "question_id": 4688,
+      "category": "history",
+      "n_options": 7
+    },
+    {
+      "question_id": 9035,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11316,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 230,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 6016,
+      "category": "health",
+      "n_options": 8
+    },
+    {
+      "question_id": 12002,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 7782,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 10554,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 4020,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 1720,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 10556,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 11373,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10072,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1646,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 3175,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11590,
+      "category": "engineering",
+      "n_options": 4
+    },
+    {
+      "question_id": 9694,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 713,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 349,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 360,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 11890,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9790,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6199,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 11105,
+      "category": "philosophy",
+      "n_options": 4
+    },
+    {
+      "question_id": 9898,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9419,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7332,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8963,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2648,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 6238,
+      "category": "health",
+      "n_options": 9
+    },
+    {
+      "question_id": 963,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 1629,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 9828,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8943,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 10213,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3664,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 977,
+      "category": "law",
+      "n_options": 4
+    },
+    {
+      "question_id": 4571,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5009,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 10427,
+      "category": "computer science",
+      "n_options": 4
+    },
+    {
+      "question_id": 9121,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1573,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 6158,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 7566,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3988,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 3327,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 3340,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8804,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6403,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 8992,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11441,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11655,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 1867,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 10070,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5051,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 11366,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10820,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 4904,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 3328,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 5244,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 1806,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 4235,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11314,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 3746,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 8456,
+      "category": "math",
+      "n_options": 8
+    },
+    {
+      "question_id": 9678,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1100,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 6939,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9318,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5680,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 542,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 1491,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 869,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 9366,
+      "category": "physics",
+      "n_options": 7
+    },
+    {
+      "question_id": 8668,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8683,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11409,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 6712,
+      "category": "health",
+      "n_options": 9
+    },
+    {
+      "question_id": 6057,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 2154,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11229,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 8296,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3523,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 293,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 4105,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11267,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 10021,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1468,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 4743,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 4129,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 9611,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 4572,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 4195,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 115,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 3598,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 7341,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9485,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9967,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7966,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 9242,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2304,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 9927,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3824,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5553,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 11940,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 8757,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3293,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 5915,
+      "category": "other",
+      "n_options": 8
+    },
+    {
+      "question_id": 6613,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 8112,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 10620,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 5715,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 6236,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 5857,
+      "category": "other",
+      "n_options": 9
+    },
+    {
+      "question_id": 2230,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 3318,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 2236,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 2760,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 6001,
+      "category": "health",
+      "n_options": 7
+    },
+    {
+      "question_id": 11457,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 5606,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 8627,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2634,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 3124,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8126,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 4058,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 283,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 10966,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 5687,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 8103,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2065,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11365,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11958,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10387,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 6012,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 4324,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 9843,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 9146,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8326,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 1587,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 11891,
+      "category": "engineering",
+      "n_options": 9
+    },
+    {
+      "question_id": 198,
+      "category": "business",
+      "n_options": 8
+    },
+    {
+      "question_id": 5982,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 6814,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 4645,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 1430,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 2645,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7216,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5240,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 4997,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 5257,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 4605,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5538,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 8808,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6959,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10561,
+      "category": "computer science",
+      "n_options": 8
+    },
+    {
+      "question_id": 5228,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 8243,
+      "category": "math",
+      "n_options": 9
+    },
+    {
+      "question_id": 2460,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4598,
+      "category": "chemistry",
+      "n_options": 8
+    },
+    {
+      "question_id": 11883,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9947,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6027,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 8033,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 4286,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2742,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8795,
+      "category": "math",
+      "n_options": 5
+    },
+    {
+      "question_id": 8838,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6464,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 7969,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 10406,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 1986,
+      "category": "psychology",
+      "n_options": 8
+    },
+    {
+      "question_id": 5348,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 992,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 3639,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 7307,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 6767,
+      "category": "health",
+      "n_options": 9
+    },
+    {
+      "question_id": 7577,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10896,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 12155,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 3290,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 9371,
+      "category": "physics",
+      "n_options": 9
+    },
+    {
+      "question_id": 2253,
+      "category": "psychology",
+      "n_options": 4
+    },
+    {
+      "question_id": 11702,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10245,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7391,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10033,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2180,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 10727,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 4412,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 11684,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 3800,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6780,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 10705,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 4519,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6969,
+      "category": "economics",
+      "n_options": 5
+    },
+    {
+      "question_id": 6569,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 2469,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 2855,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7750,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 5646,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 2474,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 2103,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4721,
+      "category": "history",
+      "n_options": 8
+    },
+    {
+      "question_id": 1957,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 11226,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 1071,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 7063,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 11058,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 8298,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 12024,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 11413,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 6161,
+      "category": "health",
+      "n_options": 9
+    },
+    {
+      "question_id": 7636,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6521,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 10360,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 2436,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 742,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 9966,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2333,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8242,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 7869,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 7171,
+      "category": "economics",
+      "n_options": 8
+    },
+    {
+      "question_id": 4032,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2207,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 8976,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8087,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11546,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 7988,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 5176,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 9014,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3005,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7463,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10135,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10741,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 11385,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 2498,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 6098,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 4998,
+      "category": "history",
+      "n_options": 7
+    },
+    {
+      "question_id": 11344,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 9041,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6172,
+      "category": "health",
+      "n_options": 8
+    },
+    {
+      "question_id": 2073,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 2051,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6496,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 2747,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 789,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 9978,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10956,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 8664,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3113,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 747,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 7652,
+      "category": "economics",
+      "n_options": 9
+    },
+    {
+      "question_id": 10359,
+      "category": "computer science",
+      "n_options": 7
+    },
+    {
+      "question_id": 1745,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 125,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 2913,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6301,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 11087,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 4746,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 4333,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5484,
+      "category": "other",
+      "n_options": 9
+    },
+    {
+      "question_id": 5782,
+      "category": "other",
+      "n_options": 8
+    },
+    {
+      "question_id": 11424,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 3580,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 4968,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 11266,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 1926,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 7790,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 4150,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 8432,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 7116,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3756,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 1138,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 9153,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 12187,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 771,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 11765,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10261,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 1008,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 2373,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 1523,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 8250,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8040,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8365,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2006,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7653,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 10460,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 11084,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 10464,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 5387,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 7114,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3420,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 9789,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6446,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 7947,
+      "category": "math",
+      "n_options": 6
+    },
+    {
+      "question_id": 11235,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 4339,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 3459,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 9657,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3275,
+      "category": "biology",
+      "n_options": 4
+    },
+    {
+      "question_id": 9442,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3663,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 7761,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 4405,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 4295,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 7065,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2783,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6115,
+      "category": "health",
+      "n_options": 8
+    },
+    {
+      "question_id": 2056,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 3841,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 800,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 9468,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5231,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 11463,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 5859,
+      "category": "other",
+      "n_options": 4
+    },
+    {
+      "question_id": 1936,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 1096,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 12149,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 4289,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 10856,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 924,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 12099,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 4569,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 7072,
+      "category": "economics",
+      "n_options": 4
+    },
+    {
+      "question_id": 6730,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 362,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 7590,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3155,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 5809,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 3674,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 7592,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2182,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11467,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 4661,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 912,
+      "category": "law",
+      "n_options": 4
+    },
+    {
+      "question_id": 219,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 2054,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7736,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2796,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 5877,
+      "category": "other",
+      "n_options": 8
+    },
+    {
+      "question_id": 6125,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 3455,
+      "category": "biology",
+      "n_options": 7
+    },
+    {
+      "question_id": 9645,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7870,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 2801,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 3783,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 756,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 3216,
+      "category": "biology",
+      "n_options": 9
+    },
+    {
+      "question_id": 3737,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 1337,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 4683,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 3479,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4616,
+      "category": "chemistry",
+      "n_options": 9
+    },
+    {
+      "question_id": 6763,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 7348,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 12234,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10771,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 10363,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 10923,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 11154,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 2662,
+      "category": "psychology",
+      "n_options": 6
+    },
+    {
+      "question_id": 134,
+      "category": "business",
+      "n_options": 7
+    },
+    {
+      "question_id": 9758,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6077,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 5001,
+      "category": "history",
+      "n_options": 10
+    },
+    {
+      "question_id": 3092,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 463,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 8477,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 10613,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 6201,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 3589,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5995,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 1255,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 3951,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2623,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 4614,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5618,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 2454,
+      "category": "psychology",
+      "n_options": 8
+    },
+    {
+      "question_id": 6063,
+      "category": "health",
+      "n_options": 4
+    },
+    {
+      "question_id": 8546,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8007,
+      "category": "math",
+      "n_options": 8
+    },
+    {
+      "question_id": 370,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 11824,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 6178,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 2723,
+      "category": "psychology",
+      "n_options": 9
+    },
+    {
+      "question_id": 4536,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 5549,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 10815,
+      "category": "philosophy",
+      "n_options": 10
+    },
+    {
+      "question_id": 8823,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3453,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 3012,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 5220,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 8941,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 6963,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3722,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 6311,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 837,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 4329,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 10051,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8682,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3330,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 11412,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10264,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 692,
+      "category": "business",
+      "n_options": 9
+    },
+    {
+      "question_id": 5863,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 7582,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 7169,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 10156,
+      "category": "physics",
+      "n_options": 7
+    },
+    {
+      "question_id": 8000,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8656,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 11746,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 1232,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 11717,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 5724,
+      "category": "other",
+      "n_options": 9
+    },
+    {
+      "question_id": 7657,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 6202,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 7172,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2151,
+      "category": "psychology",
+      "n_options": 7
+    },
+    {
+      "question_id": 8292,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 4227,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 9800,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 5690,
+      "category": "other",
+      "n_options": 10
+    },
+    {
+      "question_id": 11462,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 1423,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 6296,
+      "category": "health",
+      "n_options": 8
+    },
+    {
+      "question_id": 3513,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6051,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 9871,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8048,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 10565,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 9305,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 3281,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 6114,
+      "category": "health",
+      "n_options": 10
+    },
+    {
+      "question_id": 6831,
+      "category": "economics",
+      "n_options": 9
+    },
+    {
+      "question_id": 1031,
+      "category": "law",
+      "n_options": 9
+    },
+    {
+      "question_id": 1231,
+      "category": "law",
+      "n_options": 10
+    },
+    {
+      "question_id": 2200,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 3289,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 7937,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 9478,
+      "category": "physics",
+      "n_options": 10
+    },
+    {
+      "question_id": 8606,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 8545,
+      "category": "math",
+      "n_options": 10
+    },
+    {
+      "question_id": 3136,
+      "category": "biology",
+      "n_options": 10
+    },
+    {
+      "question_id": 10514,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 4059,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 3989,
+      "category": "chemistry",
+      "n_options": 10
+    },
+    {
+      "question_id": 2744,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 321,
+      "category": "business",
+      "n_options": 10
+    },
+    {
+      "question_id": 6116,
+      "category": "health",
+      "n_options": 8
+    },
+    {
+      "question_id": 11571,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 10424,
+      "category": "computer science",
+      "n_options": 10
+    },
+    {
+      "question_id": 11788,
+      "category": "engineering",
+      "n_options": 10
+    },
+    {
+      "question_id": 6795,
+      "category": "health",
+      "n_options": 4
+    },
+    {
+      "question_id": 7467,
+      "category": "economics",
+      "n_options": 10
+    },
+    {
+      "question_id": 2062,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 2745,
+      "category": "psychology",
+      "n_options": 10
+    },
+    {
+      "question_id": 2991,
+      "category": "biology",
+      "n_options": 10
+    }
+  ]
+}

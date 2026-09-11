@@ -18,16 +18,6 @@ import os
 from pathlib import Path
 from typing import Iterable, Sequence
 
-try:
-    from vllm import LLM, SamplingParams
-except ImportError as e:
-    raise SystemExit(
-        "vllm is required. Install with:  pip install -r eval/requirements.txt"
-    ) from e
-
-from transformers import AutoTokenizer
-
-
 @dataclasses.dataclass
 class GenerationConfig:
     model_path: str
@@ -80,6 +70,15 @@ def generate(
     Returns a list of length ``len(prompts)``, where each element is a list of
     strings (``n_samples`` completions for that prompt).
     """
+    # Dataset validation and scoring can run on CPU without importing vLLM.
+    try:
+        from vllm import LLM, SamplingParams
+    except ImportError as e:
+        raise SystemExit(
+            "vllm is required for generation. Install with: pip install -r eval/requirements.txt"
+        ) from e
+    from transformers import AutoTokenizer
+
     tokenizer = AutoTokenizer.from_pretrained(
         cfg.model_path, trust_remote_code=cfg.trust_remote_code
     )

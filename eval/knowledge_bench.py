@@ -1,7 +1,7 @@
 """Knowledge benchmark evaluation for the GAC harness.
 
 Covers:
-    - MMLU-Pro (multi-choice, 10 options, TIGER-Lab/MMLU-Pro)
+    - MMLU-Pro (multi-choice, up to 10 options, TIGER-Lab/MMLU-Pro)
     - GPQA-diamond (multi-choice, 4 options, Idavidrein/gpqa)
     - SciBench (open-ended numeric/symbolic, xw27/scibench)
 
@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import os
 import random
@@ -29,6 +30,12 @@ from prompts import MCQ_SYSTEM, SCIENCE_SYSTEM, mcq_user_prompt, scibench_user_p
 
 BOXED_RE = re.compile(r"\\boxed\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}")
 LETTER_RE = re.compile(r"\b([A-J])\b")
+MMLU_PRO_DATASET = "TIGER-Lab/MMLU-Pro"
+MMLU_PRO_REVISION = "b189ec765aa7ed75c8acfea42df31fdae71f97be"
+MMLU_PRO_MANIFEST = (
+    Path(__file__).resolve().parent / "manifests"
+    / f"mmlu_pro_test_{MMLU_PRO_REVISION}.json"
+)
 
 
 def extract_boxed(text: str) -> str | None:
@@ -60,33 +67,68 @@ def extract_letter(text: str) -> str | None:
 
 
 def _load_mmlu_pro(subset_size: int = 1000, seed: int = 42) -> list[dict]:
-    """Load a 1000-sample fixed subset of MMLU-Pro (paper: 1k stratified sample)."""
-    ds = load_dataset("TIGER-Lab/MMLU-Pro", split="test")
-    if len(ds) < subset_size:
-        raise RuntimeError(
-            f"MMLU-Pro: expected at least {subset_size} test examples, found {len(ds)}"
-        )
-    rng = random.Random(seed)
-    idxs = list(range(len(ds)))
-    rng.shuffle(idxs)
+    """Load manifest-selected IDs at a pinned revision (seed-42 random sample).
+
+    Selection is independent of the generation seed and dataset row order.
+    The original selection algorithm was pseudorandom, not stratified.
+    """
+    manifest = json.loads(MMLU_PRO_MANIFEST.read_text(encoding="utf-8"))
+    expected = {
+        "dataset": MMLU_PRO_DATASET,
+        "config": "default",
+        "split": "test",
+        "revision": MMLU_PRO_REVISION,
+        "dataset_size": 12032,
+        "id_field": "question_id",
+        "sample_size": 1000,
+        "seed": 42,
+    }
+    if any(manifest.get(key) != value for key, value in expected.items()):
+        raise RuntimeError("MMLU-Pro: manifest metadata does not match the fixed protocol")
+    if subset_size != manifest["sample_size"] or seed != manifest["seed"]:
+        raise ValueError("MMLU-Pro: the release manifest fixes sample_size=1000 and seed=42")
+    entries = manifest["entries"]
+    require_dataset_size("MMLU-Pro manifest", len(entries), subset_size)
+    ids = [entry["question_id"] for entry in entries]
+    if len(set(ids)) != len(ids):
+        raise RuntimeError("MMLU-Pro: duplicate question_id in manifest")
+
+    ds = load_dataset(
+        MMLU_PRO_DATASET, "default", split="test", revision=MMLU_PRO_REVISION
+    )
+    require_dataset_size("MMLU-Pro test split", len(ds), manifest["dataset_size"])
+    rows_by_id = {}
+    for row in ds:
+        qid = row["question_id"]
+        if qid in rows_by_id:
+            raise RuntimeError(f"MMLU-Pro: duplicate question_id={qid} in dataset")
+        rows_by_id[qid] = row
+
     items = []
-    for i in idxs[:subset_size]:
-        row = ds[i]
+    for entry in entries:
+        qid = entry["question_id"]
+        if qid not in rows_by_id:
+            raise RuntimeError(f"MMLU-Pro: missing manifest question_id={qid}")
+        row = rows_by_id[qid]
         raw_options = row["options"]
-        if not isinstance(raw_options, (list, tuple)) or len(raw_options) != 10:
+        if not isinstance(raw_options, (list, tuple)) or not 3 <= len(raw_options) <= 10:
             raise RuntimeError(
-                f"MMLU-Pro row {i}: expected 10 options, found "
+                f"MMLU-Pro question_id={qid}: expected 3-10 options, found "
                 f"{len(raw_options) if isinstance(raw_options, (list, tuple)) else type(raw_options).__name__}"
             )
+        if len(raw_options) != entry["n_options"] or row["category"] != entry["category"]:
+            raise RuntimeError(f"MMLU-Pro question_id={qid}: dataset differs from manifest")
         answer_index = int(row["answer_index"])
         if not 0 <= answer_index < len(raw_options):
-            raise RuntimeError(f"MMLU-Pro row {i}: invalid answer_index={answer_index}")
+            raise RuntimeError(f"MMLU-Pro question_id={qid}: invalid answer_index={answer_index}")
         options = {chr(65 + j): opt for j, opt in enumerate(raw_options)}
         # answer_index in MMLU-Pro is 0-indexed integer
         gold_letter = chr(65 + answer_index)
         items.append(
             {
-                "id": f"mmlu-pro_{i}",
+                "id": f"mmlu-pro_{qid}",
+                "question_id": qid,
+                "category": row["category"],
                 "prompt": mcq_user_prompt(row["question"], options),
                 "gold": gold_letter,
                 "raw_question": row["question"],
@@ -97,12 +139,11 @@ def _load_mmlu_pro(subset_size: int = 1000, seed: int = 42) -> list[dict]:
 
 
 def _load_gpqa_diamond(csv_path: str | None = None) -> tuple[list[dict], str]:
-    """Load GPQA-Diamond from HF or the authors' public CSV mirror.
+    """Load gated GPQA-Diamond or a user-provided, lawfully obtained CSV.
 
-    The Hugging Face copy is gated.  The authors publish the same split in
-    ``dataset/gpqa_diamond.csv`` in their repository, so callers can provide
-    that file through ``--gpqa_csv`` or ``GAC_GPQA_CSV`` without weakening
-    access controls or changing the benchmark definition.
+    A clean checkout does not include GPQA data. Authenticate with Hugging
+    Face after obtaining dataset access, or provide the complete Diamond
+    split through ``--gpqa_csv`` / ``GAC_GPQA_CSV``.
     """
     csv_path = csv_path or os.environ.get("GAC_GPQA_CSV")
     if csv_path:
@@ -123,9 +164,19 @@ def _load_gpqa_diamond(csv_path: str | None = None) -> tuple[list[dict], str]:
         if missing:
             raise ValueError(f"GPQA CSV missing columns: {missing}")
         ds = rows
-        source = "csv:provided_file"
+        source = "csv:provided_file:sha256=" + hashlib.sha256(path.read_bytes()).hexdigest()
     else:
-        ds = load_dataset("Idavidrein/gpqa", "gpqa_diamond", split="train")
+        try:
+            ds = load_dataset("Idavidrein/gpqa", "gpqa_diamond", split="train")
+        except (OSError, ValueError) as exc:
+            raise RuntimeError(
+                "Unable to load GPQA-Diamond. It is gated on Hugging Face: "
+                "obtain access at https://huggingface.co/datasets/Idavidrein/gpqa "
+                "and authenticate with `hf auth login`, or supply a lawfully "
+                "obtained 198-row CSV via --gpqa_csv / GAC_GPQA_CSV. "
+                "No GPQA data is bundled in this repository. "
+                "Check the underlying error for connectivity or cache failures."
+            ) from exc
         require_dataset_size("GPQA-Diamond", len(ds), 198)
         source = "hf:Idavidrein/gpqa:gpqa_diamond:train"
 
@@ -276,10 +327,18 @@ def run_benchmark(
         "seed": cfg.seed,
         "data_source": source
         or {
-            "mmlu-pro": "hf:TIGER-Lab/MMLU-Pro:test:fixed_seed_42_subset_1000",
+            "mmlu-pro": f"hf:{MMLU_PRO_DATASET}:test@{MMLU_PRO_REVISION}",
             "scibench": "hf:xw27/scibench:train",
         }[name],
     }
+    if name == "mmlu-pro":
+        summary["dataset_revision"] = MMLU_PRO_REVISION
+        summary["subset_manifest"] = MMLU_PRO_MANIFEST.name
+        summary["subset_manifest_sha256"] = hashlib.sha256(
+            MMLU_PRO_MANIFEST.read_bytes()
+        ).hexdigest()
+        summary["subset_seed"] = 42
+        summary["id_field"] = "question_id"
     with open(per_bench_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
 
@@ -291,8 +350,12 @@ def run_benchmark(
 
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--model_path", required=True)
-    p.add_argument("--output_dir", required=True)
+    p.add_argument("--model_path")
+    p.add_argument("--output_dir")
+    p.add_argument(
+        "--check_data", action="store_true",
+        help="Validate selected datasets on CPU, without loading a model or generating answers.",
+    )
     p.add_argument(
         "--benchmarks", nargs="+", default=list(LOADERS.keys()),
         choices=list(LOADERS.keys()),
@@ -307,9 +370,40 @@ def main() -> None:
     p.add_argument(
         "--gpqa_csv",
         default=None,
-        help="Optional authors' GPQA-Diamond CSV mirror; also read from GAC_GPQA_CSV.",
+        help="User-provided GPQA-Diamond CSV (requires lawful access); also read from GAC_GPQA_CSV.",
     )
     args = p.parse_args()
+
+    if args.check_data:
+        failures = []
+        for name in args.benchmarks:
+            try:
+                if name == "gpqa":
+                    items, source = _load_gpqa_diamond(args.gpqa_csv)
+                else:
+                    items = LOADERS[name][0]()
+                    source = (
+                        f"hf:{MMLU_PRO_DATASET}:test@{MMLU_PRO_REVISION}"
+                        if name == "mmlu-pro" else "hf:xw27/scibench:train"
+                    )
+                report = {
+                    "benchmark": name, "status": "validated",
+                    "n_examples": len(items), "data_source": source,
+                }
+                if name == "mmlu-pro":
+                    report["subset_manifest_sha256"] = hashlib.sha256(
+                        MMLU_PRO_MANIFEST.read_bytes()
+                    ).hexdigest()
+                print(json.dumps(report))
+            except Exception as exc:
+                failures.append(name)
+                print(f"[check_data] {name}: {exc}", file=sys.stderr)
+        if failures:
+            raise SystemExit(1)
+        return
+
+    if not args.model_path or not args.output_dir:
+        p.error("--model_path and --output_dir are required unless --check_data is used")
 
     cfg = GenerationConfig(
         model_path=args.model_path,

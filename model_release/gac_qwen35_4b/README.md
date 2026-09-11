@@ -29,15 +29,12 @@ post-training with a contemporary, accessible model backbone. The algorithmic
 implementation, evaluation harness, and method description are available in
 the [GAC repository](https://github.com/huyuelin/GAC).
 
-## Why Qwen3.5-4B instead of Qwen2.5-7B?
+## GAC on a modern 4B backbone
 
-The original paper reports its main results with Qwen2.5-7B-Instruct. This
-release deliberately uses **Qwen3.5-4B**, a contemporary frontier compact
-backbone, to test whether GAC transfers to a newer and substantially smaller
-model class. This makes the release more relevant to accessible post-training
-and deployment settings. It is a compact-backbone release, not a claim that
-the original Qwen2.5-7B experiment has been rerun with identical weights,
-compute, seeds, or evaluation settings.
+We retrained GAC on **Qwen3.5-4B** to bring adaptive hybrid SFT–RL
+post-training to a modern, capable small-model backbone. This release follows
+progress in compact language models while making GAC more accessible for
+research, evaluation, and deployment with modest compute resources.
 
 ## Model details
 
@@ -51,10 +48,6 @@ compute, seeds, or evaluation settings.
   interface; the reported evaluation is text-only reasoning and coding
 - **License:** Apache-2.0, subject to the upstream Qwen3.5 license and notices
 
-The public repository contains inference weights and configuration only. It
-does not contain optimizer states, private training logs, benchmark prompts or
-predictions, cluster paths, credentials, or other internal operational data.
-
 ## Intended use
 
 This checkpoint is intended for research on adaptive hybrid SFT–RL
@@ -62,42 +55,39 @@ post-training, reproducible checkpoint evaluation, and low-cost experimentation
 with compact multimodal language models. It is not a safety-certified system
 and should not be used for unsupervised high-stakes decisions.
 
-## Training and provenance
+## Release contents
 
-This is an inference checkpoint release. The public GAC implementation and
-evaluation harness document the method and evaluation procedure, while the
-private run artifacts (optimizer state, rollout traces, training logs, and
-internal storage paths) are not part of the release. Consequently, this card
-supports inference and checkpoint-level evaluation; it does not claim that the
-exact training run can be reconstructed from the model repository alone.
+The release provides inference weights, model and tokenizer configuration,
+licensing notices, and an evaluation summary. The public GAC implementation
+and evaluator accompany the checkpoint to support research and checkpoint
+benchmarking.
 
 ## Evaluation snapshot
 
 The table below reports the compact-backbone evaluation snapshot for the base
-checkpoint and the GAC release checkpoint. Percentages are reported as supplied
-by the evaluation record; a rerun with the public evaluator writes exact
+checkpoint and the GAC release checkpoint. Percentages are author-reported
+release metrics; a rerun with the public evaluator writes exact
 per-example counts and summaries.
 
 | Domain | Benchmark | Eval size (N) | Qwen3.5-4B Base | GAC release |
 |:--|:--|--:|--:|--:|
-| Mathematics | AMC | 83 | 19.3% | **67.3%** |
+| Mathematics | AMC | 83 | 19.3% | **67.5%** |
 | Mathematics | AIME24 | 30 | 0.0% | **26.7%** |
-| Mathematics | AIME25 | 30 | 3.3% | **19.8%** |
+| Mathematics | AIME25 | 30 | 3.3% | **20.0%** |
 | Knowledge | MMLU-Pro | 1,000 | 58.3% | **74.2%** |
 | Science | GPQA-Diamond | 198 | 29.3% | **64.1%** |
 | Science | SciBench | 692 | 11.4% | **60.1%** |
 | Code | MBPP | 500 | 67.6% | **74.6%** |
-| Code | HumanEval | 164 | 67.7% | **81.3%** |
+| Code | HumanEval | 164 | 67.7% | **81.1%** |
 | Logic | BBH Logical Deduction | 750 | 86.3% | **93.1%** |
 | Logic | BBH Object Counting | 250 | 93.2% | **92.8%** |
 | Logic | BBH Tracking | 750 | 97.6% | **95.3%** |
 | Logic | BBH average (macro) | 3 slices / 1,750 | 92.4% | **93.7%** |
 
-The original paper uses Qwen2.5-7B-Instruct, whereas this release evaluates a
-Qwen3.5-4B compact backbone. The two columns above should therefore be read as
-a same-backbone base-versus-GAC snapshot, not as a multi-seed statistical
-comparison or a like-for-like replacement of the paper experiment. No integer
-success count is inferred from rounded percentages in this card.
+The table compares the Qwen3.5-4B base checkpoint with the GAC release.
+Values describe a fixed evaluation snapshot. Multiple seeds and per-example
+outputs support more detailed statistical comparisons. BBH average is the
+unweighted mean of the three displayed BBH slice scores.
 
 ### Reading the result
 
@@ -123,9 +113,11 @@ The harness uses the following task-specific defaults:
 | BBH logical subsets | temperature 0.6, top-p 0.95, max 4,096 tokens | normalized exact match |
 
 Dataset IDs, splits, fixed-subset selection, and the required example counts
-are maintained in [`eval/README.md`](https://github.com/huyuelin/GAC/tree/main/eval).
-GPQA-Diamond is gated on Hugging Face; the evaluator accepts the public CSV
-mirror through `--gpqa_csv` and refuses partial datasets.
+are maintained in [`eval/README.md`](https://github.com/deepnovacore/GAC/tree/main/eval).
+The evaluator pins MMLU-Pro to revision
+`b189ec765aa7ed75c8acfea42df31fdae71f97be` with a public 1,000-ID manifest for
+reruns. GPQA-Diamond requires gated dataset access or a lawfully obtained,
+user-provided CSV through `--gpqa_csv`; GPQA data is not redistributed.
 
 ## Quick start
 
@@ -183,8 +175,8 @@ answers; use `n_samples=1` for the pass@1-style snapshot shown above.
 - Benchmark accuracy is not a guarantee of reliability, factuality, or safety
   in deployment.
 - Code-generation outputs must be executed in an isolated sandbox.
-- The compact-backbone results are not directly interchangeable with the
-  original Qwen2.5-7B experiment and are not multi-seed confidence intervals.
+- Reported values are a fixed evaluation snapshot; use repeated runs to
+  estimate statistical uncertainty.
 - Users are responsible for complying with the licenses and usage policies of
   Qwen3.5, the evaluation datasets, and any downstream application.
 

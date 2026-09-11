@@ -5,6 +5,8 @@ and match the LUFFY / DeepSeek-R1 / Qwen2.5-Math convention of asking the model
 to produce its final answer inside ``\\boxed{...}`` so parsers can extract it.
 """
 
+from __future__ import annotations
+
 # System prompt for reasoning-style math benchmarks (AMC, AIME).
 MATH_SYSTEM = (
     "You are a helpful assistant. Solve the following math problem step by step. "
