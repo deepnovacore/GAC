@@ -231,6 +231,10 @@ snapshot, responsible-use notes, and Transformers loading example. The model
 card links back to this evaluator so that weights and evaluation code remain
 separately versioned and easy to audit.
 
+The public weights and model card are available on
+[Hugging Face](https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B). A ModelScope
+mirror will carry the same release contents once the mirror is authenticated.
+
 ### Default hyperparameters
 
 | Symbol | Config key | Value | Paper Sec. |
