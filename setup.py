@@ -15,7 +15,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Yuelin Hu, Wei Liu, Zhenbo Yu, Zhengxue Cheng, Li Song",
-    url="https://github.com/huyuelin/GAC",
+    url="https://github.com/deepnovacore/GAC",
     license="Apache-2.0",
     python_requires=">=3.9",
     packages=find_packages(exclude=("tests", "tests.*", "configs")),

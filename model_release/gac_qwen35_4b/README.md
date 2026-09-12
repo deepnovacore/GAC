@@ -27,7 +27,7 @@ reinforcement learning (RL) signals during post-training.
 The release is designed for researchers who want to study adaptive SFT–RL
 post-training with a contemporary, accessible model backbone. The algorithmic
 implementation, evaluation harness, and method description are available in
-the [GAC repository](https://github.com/huyuelin/GAC).
+the [GAC repository](https://github.com/deepnovacore/GAC).
 
 ## GAC on a modern 4B backbone
 
@@ -152,16 +152,16 @@ Install a current Transformers release with native Qwen3.5 support before
 loading the checkpoint, for example `pip install -U "transformers>=5.10.4"`.
 Use the official Qwen3.5 documentation for multimodal inputs. For text-only
 benchmark reproduction, follow the commands in the repository's
-[`eval/README.md`](https://github.com/huyuelin/GAC/tree/main/eval).
+[`eval/README.md`](https://github.com/deepnovacore/GAC/tree/main/eval).
 
 ## Reproducibility
 
 The algorithmic implementation, default controller configuration, unit tests,
 and evaluation harness are available at:
 
-- Code: https://github.com/huyuelin/GAC
+- Code: https://github.com/deepnovacore/GAC
 - Paper and method description: https://openreview.net/forum?id=VhBpT4iq60
-- Evaluation harness: https://github.com/huyuelin/GAC/tree/main/eval
+- Evaluation harness: https://github.com/deepnovacore/GAC/tree/main/eval
 
 For scientifically comparable reporting, record the exact model revision,
 transformers/vLLM version, decoding configuration, dataset revision, random

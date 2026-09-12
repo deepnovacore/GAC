@@ -18,7 +18,7 @@ authors:
   - family-names: Song
     given-names: Li
     affiliation: Shanghai Jiao Tong University
-repository-code: "https://github.com/huyuelin/GAC"
+repository-code: "https://github.com/deepnovacore/GAC"
 url: "https://openreview.net/forum?id=VhBpT4iq60"
 preferred-citation:
   type: conference-paper

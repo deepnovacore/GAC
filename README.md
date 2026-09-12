@@ -7,6 +7,7 @@
 [![arXiv](https://img.shields.io/badge/arXiv-forthcoming-b31b1b.svg?style=flat-square)](#)
 [![OpenReview](https://img.shields.io/badge/OpenReview-VhBpT4iq60-8c1b13.svg?style=flat-square)](https://openreview.net/forum?id=VhBpT4iq60)
 [![Project Page](https://img.shields.io/badge/Project-Page-2ea44f.svg?style=flat-square)](https://deepnovacore.github.io/GAC/)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-GAC--Qwen3.5--4B-yellow.svg?style=flat-square&logo=huggingface&logoColor=white)](https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 **A closed-form, noise-aware controller that adaptively balances SFT and RL — no hand-tuned μ schedule required.**
@@ -27,7 +28,7 @@
 - [✨ Key Highlights](#-key-highlights)
 - [📊 Results](#-results)
 - [🚀 Quick Start](#-quick-start)
-- [🛠️ Reproducing Paper Results](#️-reproducing-paper-results)
+- [🔍 Evaluation & Release](#-evaluation--release)
 - [📐 Method](#-method)
 - [🗂️ Repository Layout](#️-repository-layout)
 - [📝 Citation](#-citation)
@@ -38,10 +39,10 @@
 
 ## 🔥 News
 
-- **[2026/08]** 🎉 **GAC has been accepted to EMNLP 2026 Main Conference (Budapest)!**
-- **[2026/08]** 📄 Camera-ready released. Reference implementation open-sourced under Apache-2.0.
-- **[2026/09]** 📊 Public checkpoint evaluator released with dataset-size validation and isolated code scoring.
-- **[2026/09]** 🤗 **GAC-Qwen3.5-4B** compact-backbone release prepared for Hugging Face and ModelScope.
+- **[2026/09]** 🤗 **GAC-Qwen3.5-4B** checkpoint released on Hugging Face with an evaluation snapshot and model card.
+- **[2026/09]** 📊 Public checkpoint evaluator released with dataset provenance, fixed-subset validation, and isolated code scoring.
+- **[2026/08]** 📄 Camera-ready released; the reference implementation was open-sourced under Apache-2.0.
+- **[2026/08]** 🎉 **GAC was accepted to the EMNLP 2026 Main Conference (Budapest).**
 
 ---
 
@@ -61,7 +62,7 @@ We derive a closed-form optimal μ that minimizes the MSE of the composite gradi
 
 where **σ<sub>s</sub>², σ<sub>r</sub>²** are SFT and RL noise variances and **Δg²** is the SFT–RL disagreement. Since gradient-level quantities are prohibitively expensive at every step, we deploy three **coefficient-space proxies** estimated online from tensors any GRPO/PPO trainer already computes, wrapped in EMA smoothing, a cosine-schedule prior, and per-step change capping.
 
-**Bottom line**: **+3.8 pp over HPT** (the previous best hybrid post-training method) averaged over math, code, science, and logic benchmarks, with **< 1% wall-time overhead**, **28% lower KL-drift area**, and gains that **grow with model scale** from 1.5B → 14B.
+**Paper result**: **+3.8 pp over HPT** (the previous best hybrid post-training method) averaged over math, code, science, and logic benchmarks, with **< 1% wall-time overhead**, **28% lower KL-drift area**, and gains that **grow with model scale** from 1.5B → 14B.
 
 ---
 
@@ -78,65 +79,34 @@ where **σ<sub>s</sub>², σ<sub>r</sub>²** are SFT and RL noise variances and 
 
 ## 📊 Results
 
-### Table 1 · Mathematical reasoning & knowledge (Qwen2.5-7B-Instruct, 3 seeds, mean±std)
+### Qwen3.5-4B compact release
 
-| Method | AMC | AIME24 | AIME25 | MMLU-Pro |
-|---|:---:|:---:|:---:|:---:|
-| Qwen2.5-7B-Instruct | 43.8 | 11.7 | 6.66 | 24.7 |
-| SFT-best | 55.9 ±0.7 | 15.8 ±0.8 | 15.2 ±0.6 | 38.4 ±0.5 |
-| DPO | 57.3 ±0.9 | 16.4 ±0.7 | 15.8 ±0.7 | 42.1 ±0.6 |
-| GRPO (pure RL) | 52.1 ±1.4 | 13.2 ±1.1 | 8.54 ±1.0 | 45.8 ±0.9 |
-| CHORD | 62.5 ±0.6 | 18.2 ±0.5 | 17.2 ±0.6 | 56.2 ±0.5 |
-| SRFT | 61.8 ±0.7 | 17.9 ±0.6 | 17.0 ±0.7 | 55.6 ±0.5 |
-| LUFFY | 63.1 ±0.6 | 18.5 ±0.5 | 17.6 ±0.6 | 56.0 ±0.5 |
-| HPT | 63.4 ±0.5 | 18.7 ±0.5 | 17.8 ±0.6 | 56.4 ±0.4 |
-| KL-ctrl | 62.8 ±0.8 | 18.4 ±0.6 | 17.6 ±0.7 | 55.8 ±0.6 |
-| GAC w/o φ | 65.8 ±0.5 | 20.0 ±0.5 | 19.1 ±0.6 | 57.8 ±0.4 |
-| **GAC + Token-φ (Ours)** | **67.2 ±0.4**† | **20.8 ±0.4**† | **19.8 ±0.5**† | **58.6 ±0.3**† |
-| Δ vs. best baseline (HPT) | **+3.8** | **+2.1** | **+2.0** | **+2.2** |
+To keep GAC aligned with progress in capable compact models, we retrained the
+method on **Qwen3.5-4B** and release the resulting checkpoint for research and
+evaluation. The table compares the Qwen3.5-4B base checkpoint with the GAC
+release under a fixed single-snapshot protocol.
 
-<sub>†: joint p<0.05, Cohen's d>0.8 vs. best baseline. Paper Table 1.</sub>
+| Domain | Benchmark | Eval size (N) | Qwen3.5-4B Base | GAC-Qwen3.5-4B |
+|:--|:--|--:|--:|--:|
+| Mathematics | AMC | 83 | 19.3% | **67.5%** |
+| Mathematics | AIME24 | 30 | 0.0% | **26.7%** |
+| Mathematics | AIME25 | 30 | 3.3% | **20.0%** |
+| Knowledge | MMLU-Pro | 1,000 | 58.3% | **74.2%** |
+| Science | GPQA-Diamond | 198 | 29.3% | **64.1%** |
+| Science | SciBench | 692 | 11.4% | **60.1%** |
+| Code | MBPP | 500 | 67.6% | **74.6%** |
+| Code | HumanEval | 164 | 67.7% | **81.1%** |
+| Logic | BBH Logical Deduction | 750 | 86.3% | **93.1%** |
+| Logic | BBH Object Counting | 250 | 93.2% | **92.8%** |
+| Logic | BBH Tracking | 750 | 97.6% | **95.3%** |
+| Logic | BBH average (macro) | 3 slices / 1,750 | 92.4% | **93.7%** |
 
-### Table 2 · Code generation (pass@1 %, 3 seeds)
+The GAC release is higher on 9 of 11 task slices in this snapshot, with gains
+across mathematics, knowledge, science, and code. These are release metrics;
+use the public evaluator for exact per-example counts and reruns.
 
-| Method | MBPP | HumanEval | Avg. |
-|---|:---:|:---:|:---:|
-| Qwen2.5-7B-Instruct | 68.4 | 72.0 | 70.2 |
-| CHORD | 75.4 ±0.6 | 80.5 ±0.5 | 78.0 |
-| LUFFY | 75.8 ±0.6 | 80.9 ±0.5 | 78.4 |
-| HPT | 76.0 ±0.5 | 81.2 ±0.5 | 78.6 |
-| **GAC + Token-φ** | **78.8 ±0.5**† | **83.5 ±0.4**† | **81.2** |
-| Δ vs. HPT | +2.8 | +2.3 | +2.6 |
-
-### Table 3 · Model scale experiments (AMC %, 3 seeds)
-
-| Method | 1.5B | 7B | 14B |
-|---|:---:|:---:|:---:|
-| CHORD | 48.2 ±0.9 | 62.5 ±0.6 | 68.4 ±0.5 |
-| HPT | 49.6 ±0.8 | 63.4 ±0.5 | 70.8 ±0.4 |
-| GAC w/o φ | 51.4 ±0.8 | 65.8 ±0.5 | 73.2 ±0.4 |
-| **GAC + Token-φ** | **51.8 ±0.7** | **67.2 ±0.4** | **74.1 ±0.4** |
-| Δ vs. HPT | +2.2 | +3.8 | +3.3 |
-
-<sub>Gains grow with model size — the noise-aware controller has more σ<sub>s</sub>²/σ<sub>r</sub>² dynamic range to exploit in larger models.</sub>
-
-### Table 4 · Science (GPQA / SciBench) and Logic (BBH) — full breakdown in paper
-
-| Domain | Best baseline | **GAC + Token-φ** | Δ |
-|---|:---:|:---:|:---:|
-| GPQA | 40.4 (HPT) | **43.5** ±0.5† | +3.1 |
-| SciBench | 38.7 (HPT) | **41.2** ±0.5† | +2.5 |
-| BBH-Logic (avg) | 62.6 (HPT) | **65.7** ±0.5† | +3.1 |
-
-### Training dynamics
-
-<div align="center">
-<img src="assets/metrics_grid.png" alt="GAC training metrics" width="88%">
-<br><sub><i>Evaluation performance and rollout dynamics across benchmarks. GAC consistently leads from ~200 steps and maintains a moderate response-length regime (~1.6-2.0k tokens), avoiding the 2.5-3.0k length spikes indicative of reward hacking in baselines.</i></sub>
-<br><br>
-<img src="assets/dynamics_grid.png" alt="GAC μ / proxy dynamics" width="88%">
-<br><sub><i>Controller state — μ trajectory and the three coefficient-space proxies. μ starts near 0.85 (SFT-dominated), gradually decreases to ~0.15 as training matures, and tracks σ<sub>r</sub>² rather than KL — confirming the noise-aware estimator drives μ during >93% of steps.</i></sub>
-</div>
+For the original paper's experiments and tables, see the
+[OpenReview paper](https://openreview.net/forum?id=VhBpT4iq60).
 
 ---
 
@@ -145,7 +115,7 @@ where **σ<sub>s</sub>², σ<sub>r</sub>²** are SFT and RL noise variances and 
 ### Install
 
 ```bash
-git clone https://github.com/huyuelin/GAC.git
+git clone https://github.com/deepnovacore/GAC.git
 cd GAC
 pip install -r requirements.txt
 pip install -e .
@@ -199,74 +169,37 @@ That's it. GAC only touches the **weighting between** the SFT and RL losses; it 
 
 ---
 
-## 🛠️ Reproducing Paper Results
+## 🔍 Evaluation & Release
 
-> **Status (2026-09)**: This repo ships the **reference algorithm** and a
-> public checkpoint evaluator, including controller, hybrid-loss integration,
-> unit tests, dataset provenance, aggregate scoring, and isolated code
-> evaluation. Training infrastructure remains separate from the public
-> checkpoint evaluator. See the [Roadmap](#-roadmap) section below.
-
-### Evaluate Qwen2.5- and Qwen3.5-family checkpoints
-
-The `eval/` directory ships a public checkpoint harness for the reported task
-slices across four domains — Math (AMC / AIME24 / AIME25), Knowledge
-(MMLU-Pro / GPQA / SciBench), Code (MBPP / HumanEval), and Logic (three BBH
-subsets). MMLU-Pro uses a pinned dataset revision and a checked-in 1,000-ID
-manifest. GPQA requires Hugging Face dataset access or a user-provided CSV;
-GPQA data is not bundled. Point the harness at a Hugging Face-compatible
-local directory or hub ID:
+The public [`eval/`](eval/) harness covers **11 task slices across 9 dataset
+families**: AMC, AIME24, AIME25, MMLU-Pro, GPQA-Diamond, SciBench, MBPP,
+HumanEval, and three BBH logic subsets. It includes dataset provenance,
+fixed-subset validation, aggregation, and isolated code scoring.
 
 ```bash
 cd eval
 pip install -r requirements.txt
-bash run_all.sh --model_path /path/to/your-checkpoint --output_dir ./results --tp_size 4
+bash run_all.sh --model_path /path/to/your-checkpoint \
+  --output_dir ./results --tp_size 4
 ```
 
-See [`eval/README.md`](eval/README.md) for installation, individual
-benchmark commands, dataset provenance, multi-seed aggregation, Slurm usage,
-and the code-execution safety boundary.
+MMLU-Pro uses a pinned revision and a checked-in 1,000-ID manifest. GPQA is a
+gated dataset: authenticate with Hugging Face or provide a complete, lawfully
+obtained CSV through `--gpqa_csv`. See [`eval/README.md`](eval/README.md) for
+benchmark commands, scoring details, Slurm usage, and the code-execution
+safety boundary.
 
-### Compact model release
-
-The **GAC-Qwen3.5-4B** model card contains the compact-backbone evaluation
-snapshot, responsible-use notes, and Transformers loading example. The model
-card links back to this evaluator so that weights and evaluation code remain
-separately versioned and easy to audit.
-
-The public weights and model card are available on
-[Hugging Face](https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B). A ModelScope
-mirror will carry the same release contents once the mirror is authenticated.
-
-### Default hyperparameters
-
-| Symbol | Config key | Value | Paper Sec. |
-|---|---|:---:|:---:|
-| β (EMA) | `ema_beta` | 0.99 | 3.4 |
-| c̄ (per-step cap) | `mu_change_cap` | 0.01 | 3.4 |
-| λ (cosine-prior blend) | `blend_weight` | 0.50 | 3.4 |
-| f<sub>μ</sub> (update freq.) | `mu_update_freq` | 10 | 3.3 |
-| trim ratio (SFT) | `trim_ratio_sft` | 0.10 | 3.3 |
-| KL target | `kl_target` | 0.02 | 3.3 |
-| α range | `alpha_range` | [0.10, 0.95] | 3.3 |
-
-### Datasets used in the paper
-
-| Domain | Dataset | Split |
-|---|---|---|
-| Math | OpenR1-Math-220k | 5k SFT prompts + 20k RL prompts |
-| Code | MBPP, HumanEval | full eval |
-| Science | GPQA, SciBench | full eval |
-| Logic | BBH (logical subsets) | full eval |
-
-All main results report **mean ± std over 3 seeds** with joint significance thresholds **p < 0.05** and **Cohen's d > 0.8**.
+The [GAC-Qwen3.5-4B checkpoint](https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B)
+contains the compact-backbone release and its evaluation protocol. The
+original paper's experimental tables remain available in the
+[OpenReview paper](https://openreview.net/forum?id=VhBpT4iq60).
 
 ### 🗺️ Roadmap
 
 | Version | Target | Contents |
 |---|---|---|
-| ✅ **v0.1.0** | 2026-08 | Reference `AdaptiveMuController`, hybrid-loss integration, unit tests, and paper evaluation harness |
-| ✅ **v0.1.1** | 2026-09 | Public evaluator hardening, isolated code scoring, provenance checks, and compact-model release metadata |
+| ✅ **v0.1.0** | 2026-08 | Reference `AdaptiveMuController`, hybrid-loss integration, unit tests, and evaluator covering 11 task slices |
+| ✅ **v0.1.1** | 2026-09 | Fixed-subset validation, isolated code scoring, provenance checks, and Qwen3.5-4B checkpoint release |
 | 🚧 **v0.2.0** | 2026-09 | Training pipeline (VeRL fork), public training recipe, and `gac-core` packaging |
 | 🚧 **v0.4.0** | 2026-11 | Docker image, 1-command `run.sh` reproduction, external verification runs |
 
@@ -319,6 +252,7 @@ GAC/
 │   ├── code_bench.py        # MBPP / HumanEval (bigcode-eval scoring)
 │   ├── bbh_logic.py         # BBH logical subsets
 │   ├── aggregate.py         # Multi-seed mean±std aggregation
+│   ├── manifests/            # Pinned benchmark subset manifests
 │   ├── run_all.sh           # One-command reproduction
 │   └── README.md            # Detailed usage & data provenance
 ├── configs/
@@ -327,7 +261,8 @@ GAC/
 │   ├── method.md            # Long-form derivation and proxy semantics
 │   └── index.html           # Project page (served by GitHub Pages)
 ├── tests/
-│   └── test_controller.py   # Closed-form estimator unit tests
+│   ├── test_controller.py   # Closed-form estimator unit tests
+│   └── test_evaluation_data.py # Dataset and fixed-subset regression tests
 ├── assets/                  # Figures used in this README
 ├── CITATION.cff
 ├── LICENSE                  # Apache 2.0

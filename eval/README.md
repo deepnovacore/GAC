@@ -121,6 +121,11 @@ done
 python aggregate.py ./results/seed_{0,1,2}   # prints mean±std across seeds
 ```
 
+The values in this section are the paper reference results under the original
+paper protocol. They are separate from the Qwen3.5-4B base-versus-GAC release
+snapshot in the repository's main [Results section](../README.md#-results) and
+the [Qwen3.5-4B model card](https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B).
+
 Expected numbers for `GAC + Token-φ` on Qwen2.5-7B:
 
 | Benchmark | GAC + Token-φ (paper) |
