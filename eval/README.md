@@ -1,8 +1,20 @@
 # GAC Evaluation Harness
 
+## Current compact-model release
+
+The October 2026 model-card table uses the versioned
+[`profiles/gac_release_20261008/`](profiles/gac_release_20261008/) recipe:
+one joint batch of 4,447 questions per decoding seed (0/1/2), temperature 0.6,
+top-p 0.95, and 8,192 new tokens for **all** task slices. Its frozen parsers
+and dataset checks are included there. The general commands below retain
+their task-specific defaults; they are not the reproduction command for
+that release table.
+
+## General harness
+
 This directory contains the public checkpoint evaluation pipeline for GAC's
 benchmark families and the Qwen3.5-4B release. It covers **11 reported task
-slices from 9 dataset families across 4 domains**. Dataset access and sampling
+slices from 9 dataset families**. Dataset access and sampling
 are specified below; GPQA requires separate access.
 
 | Domain | Benchmarks | Script |
@@ -18,8 +30,8 @@ are specified below; GPQA requires separate access.
 generator that takes a prompt file (jsonl), a system template, and produces
 raw completions. Reasoning-oriented slices use temperature = 0.6, top-p =
 0.95, and max_new_tokens = 8192. Code generation deliberately uses a lower
-temperature (0.2) and max_new_tokens = 1024; the exact settings are shown in
-the model-card protocol table.
+temperature (0.2) and max_new_tokens = 1024. These general defaults are not
+the current model-card protocol; use the versioned profile above for that table.
 
 **Scoring** uses domain-appropriate tooling:
 
@@ -122,7 +134,7 @@ python aggregate.py ./results/seed_{0,1,2}   # prints mean±std across seeds
 ```
 
 The values in this section are the paper reference results under the original
-paper protocol. They are separate from the Qwen3.5-4B base-versus-GAC release
+paper protocol. They are separate from the Qwen3.5-4B three-decoding-seed release
 snapshot in the repository's main [Results section](../README.md#-results) and
 the [Qwen3.5-4B model card](https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B).
 

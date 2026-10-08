@@ -39,6 +39,7 @@
 
 ## 🔥 News
 
+- **[2026/10/08]** 🤗 Refreshed **GAC-Qwen3.5-4B** weights with a full three-decoding-seed evaluation and a [versioned reproduction profile](eval/profiles/gac_release_20261008/).
 - **[2026/09]** 🤗 **GAC-Qwen3.5-4B** checkpoint released on Hugging Face with an evaluation snapshot and model card.
 - **[2026/09]** 📊 Public checkpoint evaluator released with dataset provenance, fixed-subset validation, and isolated code scoring.
 - **[2026/08]** 📄 Camera-ready released; the reference implementation was open-sourced under Apache-2.0.
@@ -62,7 +63,7 @@ We derive a closed-form optimal μ that minimizes the MSE of the composite gradi
 
 where **σ<sub>s</sub>², σ<sub>r</sub>²** are SFT and RL noise variances and **Δg²** is the SFT–RL disagreement. Since gradient-level quantities are prohibitively expensive at every step, we deploy three **coefficient-space proxies** estimated online from tensors any GRPO/PPO trainer already computes, wrapped in EMA smoothing, a cosine-schedule prior, and per-step change capping.
 
-**Paper result**: **+3.8 pp over HPT** (the previous best hybrid post-training method) averaged over math, code, science, and logic benchmarks, with **< 1% wall-time overhead**, **28% lower KL-drift area**, and gains that **grow with model scale** from 1.5B → 14B.
+**Paper result**: **+3.8 pp over HPT** (the previous best hybrid post-training method) averaged over math, code, science, and logic benchmarks, with **< 1% wall-time overhead**, **28% lower KL-drift area**, and consistent gains across the evaluated 1.5B → 14B models.
 
 ---
 
@@ -81,29 +82,37 @@ where **σ<sub>s</sub>², σ<sub>r</sub>²** are SFT and RL noise variances and 
 
 ### Qwen3.5-4B compact release
 
-To keep GAC aligned with progress in capable compact models, we retrained the
-method on **Qwen3.5-4B** and release the resulting checkpoint for research and
-evaluation. The table compares the Qwen3.5-4B base checkpoint with the GAC
-release under a fixed single-snapshot protocol.
+We bring GAC to **Qwen3.5-4B**, combining hybrid SFT–RL post-training with a
+reviewed mathematics and general-dialogue supervised refinement stage. The
+October release includes BF16 weights and the following **mean over decoding
+seeds 0, 1, and 2** for one checkpoint, evaluated on October 3.
 
-| Domain | Benchmark | Eval size (N) | Qwen3.5-4B Base | GAC-Qwen3.5-4B |
-|:--|:--|--:|--:|--:|
-| Mathematics | AMC | 83 | 19.3% | **67.5%** |
-| Mathematics | AIME24 | 30 | 0.0% | **26.7%** |
-| Mathematics | AIME25 | 30 | 3.3% | **20.0%** |
-| Knowledge | MMLU-Pro | 1,000 | 58.3% | **74.2%** |
-| Science | GPQA-Diamond | 198 | 29.3% | **64.1%** |
-| Science | SciBench | 692 | 11.4% | **60.1%** |
-| Code | MBPP | 500 | 67.6% | **74.6%** |
-| Code | HumanEval | 164 | 67.7% | **81.1%** |
-| Logic | BBH Logical Deduction | 750 | 86.3% | **93.1%** |
-| Logic | BBH Object Counting | 250 | 93.2% | **92.8%** |
-| Logic | BBH Tracking | 750 | 97.6% | **95.3%** |
-| Logic | BBH average (macro) | 3 slices / 1,750 | 92.4% | **93.7%** |
+| Domain | Benchmark | Eval size per seed | GAC release three-seed mean |
+|:--|:--|--:|--:|
+| Mathematics | AMC | 83 | **66.7%** |
+| Mathematics | AIME24 | 30 | **34.4%** |
+| Mathematics | AIME25 | 30 | **26.7%** |
+| Knowledge | MMLU-Pro | 1,000 | **72.5%** |
+| Science | GPQA-Diamond | 198 | **59.1%** |
+| Science | SciBench | 692 | **58.5%** |
+| Code | MBPP | 500 | **68.9%** |
+| Code | HumanEval | 164 | **86.6%** |
+| Logic | BBH Logical Deduction | 750 | **94.4%** |
+| Logic | BBH Object Counting | 250 | **87.7%** |
+| Logic | BBH Tracking | 750 | **95.6%** |
+| Logic | BBH average (macro) | 3 slices / 1,750 | **92.6%** |
 
-The GAC release is higher on 9 of 11 task slices in this snapshot, with gains
-across mathematics, knowledge, science, and code. These are release metrics;
-use the public evaluator for exact per-example counts and reruns.
+Each seed generates one answer per question: 4,447 questions and 13,341
+generations in total. All slices use temperature 0.6, top-p 0.95 and an
+8,192-token output budget in a joint batch per seed; code scores are pass@1.
+BBH macro-average weights the three slices equally before rounding.
+These decoding seeds are not independent training runs. Evaluation informed
+checkpoint development; the release is separate from the paper experiments.
+
+See the [release profile](eval/profiles/gac_release_20261008/) for exact
+prompts, parsers and commands, and
+[EVAL_RESULTS.json](model_release/gac_qwen35_4b/EVAL_RESULTS.json) for every
+seed's counts. General evaluator defaults differ from this profile.
 
 For the original paper's experiments and tables, see the
 [OpenReview paper](https://openreview.net/forum?id=VhBpT4iq60).
@@ -189,6 +198,10 @@ obtained CSV through `--gpqa_csv`. See [`eval/README.md`](eval/README.md) for
 benchmark commands, scoring details, Slurm usage, and the code-execution
 safety boundary.
 
+To reproduce the current model-card table, use the
+[October release profile](eval/profiles/gac_release_20261008/) instead of
+the general task-specific defaults above.
+
 The [GAC-Qwen3.5-4B checkpoint](https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B)
 contains the compact-backbone release and its evaluation protocol. The
 original paper's experimental tables remain available in the
@@ -200,8 +213,8 @@ original paper's experimental tables remain available in the
 |---|---|---|
 | ✅ **v0.1.0** | 2026-08 | Reference `AdaptiveMuController`, hybrid-loss integration, unit tests, and evaluator covering 11 task slices |
 | ✅ **v0.1.1** | 2026-09 | Fixed-subset validation, isolated code scoring, provenance checks, and Qwen3.5-4B checkpoint release |
-| 🚧 **v0.2.0** | 2026-09 | Training pipeline (VeRL fork), public training recipe, and `gac-core` packaging |
-| 🚧 **v0.4.0** | 2026-11 | Docker image, 1-command `run.sh` reproduction, external verification runs |
+| ✅ **v0.1.2** | 2026-10 | Refreshed compact model, complete three-seed results, frozen evaluation profile, and parser tests |
+| 🚧 **Planned** | — | Training-infrastructure packaging, ModelScope mirror, container recipe, and external verification |
 
 ---
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="GAC: Noise-Aware Adaptive Mixing for Hybrid SFT-RL Post-Training. EMNLP 2026.">
+<meta name="description" content="GAC: noise-aware hybrid SFT-RL post-training. GAC-Qwen3.5-4B weights, three-seed release results, and a versioned evaluator. EMNLP 2026.">
 <meta name="author" content="Yuelin Hu, Wei Liu, Zhenbo Yu, Zhengxue Cheng, Li Song">
 <meta property="og:title" content="GAC · EMNLP 2026">
 <meta property="og:description" content="A closed-form, noise-aware controller for hybrid SFT-RL post-training.">
@@ -63,6 +63,10 @@
   table.results tbody tr.ours td { color: var(--accent); }
   table.results tbody tr.delta { border-top: 2px solid var(--ink); color: var(--accent); font-weight: 500; font-size: 0.88rem; }
   table.results td:first-child { text-align: left; font-weight: 500; }
+  .results-scroller { overflow-x: auto; margin: 1rem 0; }
+  .release-results { min-width: 34rem; }
+  .paper-results { margin-top: 2rem; }
+  .paper-results summary { cursor: pointer; font-weight: 700; font-size: 1.1rem; padding: 0.75rem 0; color: var(--accent); }
   .equation-box { text-align: center; padding: 1.5rem 1rem; background: var(--bg-soft); border-radius: 6px; margin: 1.5rem 0; font-family: 'Castoro', serif; font-size: 1.35rem; }
   .roadmap-list { list-style: none; padding-left: 0; margin: 1rem 0; }
   .roadmap-list li { padding: 0.55rem 0; border-bottom: 1px dashed var(--line); display: flex; align-items: baseline; gap: 0.75rem; }
@@ -168,7 +172,7 @@
     <div class="tldr-box">
       <span class="tldr-label">TL;DR</span>
       <p style="margin: 0; font-size: 1.05rem;">
-        Hybrid SFT–RL post-training uses a <em>fixed</em> mixing weight μ that ignores how relative signal noise evolves during training. GAC casts μ as an <strong>MSE-optimal gradient estimation problem</strong>, gives a <strong>closed-form solution</strong>, and estimates it online from three cheap coefficient-space proxies. Result: <span class="highlight-red">+3.8 pp over HPT</span> across math / code / science / logic, <span class="highlight-red">28% less KL drift</span>, <span class="highlight-red">&lt; 1% wall-time overhead</span>, and <span class="highlight-red">gains scale with model size</span> (1.5B → 14B).
+        Hybrid SFT–RL post-training uses a <em>fixed</em> mixing weight μ that ignores how relative signal noise evolves during training. GAC casts μ as an <strong>MSE-optimal gradient estimation problem</strong>, gives a <strong>closed-form solution</strong>, and estimates it online from three cheap coefficient-space proxies. In the paper experiments: <span class="highlight-red">+3.8 pp over HPT</span> across math / code / science / logic, <span class="highlight-red">28% less KL drift</span>, <span class="highlight-red">&lt; 1% wall-time overhead</span>, and consistent gains across evaluated model sizes (1.5B → 14B).
       </p>
     </div>
   </div>
@@ -202,7 +206,7 @@
         that balances SFT noise, RL noise, and SFT–RL disagreement. Because gradient-level quantities are prohibitively expensive at every step, we introduce three <strong>coefficient-space proxies</strong> — estimated online from tensors any GRPO/PPO trainer already computes — and wrap them in a guarded update stack: EMA smoothing, a cosine-schedule prior, per-step change capping, and hard clipping. The controller is <em>length-invariant by construction</em> and has <em>less than 1% wall-time overhead</em>.
       </p>
       <p>
-        Across math, code, science, and logic benchmarks, the noise-aware estimator alone outperforms the best rule-based baseline; the full system reaches <span class="highlight-red">+3.8 pp over HPT</span> on average, while reducing <span class="highlight-red">KL-drift area by 28%</span> and large |Δμ| events by <span class="highlight-red">more than 70%</span>. Gains grow monotonically with model scale from Qwen2.5-1.5B to Qwen2.5-14B.
+        In the original paper experiments across math, code, science, and logic benchmarks, the noise-aware estimator alone outperforms the best rule-based baseline; the full system reaches <span class="highlight-red">+3.8 pp over HPT</span> on average, while reducing <span class="highlight-red">KL-drift area by 28%</span> and large |Δμ| events by <span class="highlight-red">more than 70%</span>. Gains are consistent across the evaluated Qwen2.5-1.5B, 7B, and 14B models.
       </p>
     </div>
   </div>
@@ -250,8 +254,52 @@
 <!-- ================ RESULTS ================ -->
 <section class="section alt">
   <div class="container is-max-desktop">
-    <h2 class="section-title">Results</h2>
+    <h2 class="section-title">GAC-Qwen3.5-4B Release</h2>
     <div class="content">
+      <p>
+        <strong>October 8, 2026 · Refreshed weights and full three-seed evaluation.</strong>
+        We bring GAC to the Qwen3.5-4B backbone, combining hybrid SFT–RL post-training
+        with reviewed mathematics and general-dialogue supervised refinement.
+        <a href="https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B" target="_blank" rel="noopener">Get the BF16 checkpoint on Hugging Face</a>.
+      </p>
+      <div class="results-scroller">
+        <table class="results release-results" id="release-results">
+          <caption class="caption">Mean over decoding seeds 0, 1, and 2 · evaluated October 3, 2026 · one checkpoint</caption>
+          <thead><tr><th scope="col">Domain</th><th scope="col">Benchmark</th><th scope="col">Eval size per seed</th><th scope="col">GAC release mean</th></tr></thead>
+          <tbody>
+          <tr data-benchmark="amc"><td>Mathematics</td><td>AMC</td><td>83</td><td><strong>66.7%</strong></td></tr>
+          <tr data-benchmark="aime24"><td>Mathematics</td><td>AIME24</td><td>30</td><td><strong>34.4%</strong></td></tr>
+          <tr data-benchmark="aime25"><td>Mathematics</td><td>AIME25</td><td>30</td><td><strong>26.7%</strong></td></tr>
+          <tr data-benchmark="mmlu-pro"><td>Knowledge</td><td>MMLU-Pro</td><td>1,000</td><td><strong>72.5%</strong></td></tr>
+          <tr data-benchmark="gpqa"><td>Science</td><td>GPQA-Diamond</td><td>198</td><td><strong>59.1%</strong></td></tr>
+          <tr data-benchmark="scibench"><td>Science</td><td>SciBench</td><td>692</td><td><strong>58.5%</strong></td></tr>
+          <tr data-benchmark="mbpp"><td>Code</td><td>MBPP</td><td>500</td><td><strong>68.9%</strong></td></tr>
+          <tr data-benchmark="humaneval"><td>Code</td><td>HumanEval</td><td>164</td><td><strong>86.6%</strong></td></tr>
+          <tr data-benchmark="logical_deduction"><td>Logic</td><td>BBH Logical Deduction</td><td>750</td><td><strong>94.4%</strong></td></tr>
+          <tr data-benchmark="object_counting"><td>Logic</td><td>BBH Object Counting</td><td>250</td><td><strong>87.7%</strong></td></tr>
+          <tr data-benchmark="tracking_shuffled_objects"><td>Logic</td><td>BBH Tracking</td><td>750</td><td><strong>95.6%</strong></td></tr>
+          <tr data-benchmark="bbh_macro"><td>Logic</td><td>BBH average (macro)</td><td>3 slices / 1,750</td><td><strong>92.6%</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>Protocol:</strong> 4,447 questions across 11 task slices; one answer
+        per question per seed, temperature 0.6, top-p 0.95, and 8,192 new tokens
+        for all slices in a joint batch per seed. Code scores are pass@1; BBH
+        macro-average weights the three slices equally before rounding.
+        These are decoding seeds, not independent training runs. Evaluation
+        informed checkpoint development; this release is separate from the paper experiments.
+      </p>
+      <p>
+        <a href="https://github.com/deepnovacore/GAC/tree/main/eval/profiles/gac_release_20261008" target="_blank" rel="noopener">Versioned evaluation profile and commands</a>
+        · <a href="https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B/blob/main/EVAL_RESULTS.json" target="_blank" rel="noopener">Exact counts for all three seeds</a>.
+        General evaluator defaults differ from this release profile.
+      </p>
+
+      <details class="paper-results">
+        <summary>Original paper experiments · Qwen2.5 family</summary>
+        <p>The following tables and figures report the original paper experiments,
+          not the released Qwen3.5-4B checkpoint above.</p>
       <p style="text-align: center; color: var(--gray);">
         <strong>Qwen2.5-7B-Instruct · mean ± std over 3 seeds · † = joint p&lt;0.05 &amp; Cohen's d&gt;0.8 vs. best baseline</strong>
       </p>
@@ -311,7 +359,7 @@
           <tr class="delta"><td>Δ vs. HPT</td><td>+2.2</td><td>+3.8</td><td>+3.3</td></tr>
         </tbody>
       </table>
-      <p class="caption">Gains grow with model size — larger models exhibit greater σ<sub>s</sub>²/σ<sub>r</sub>² dynamic range, giving the noise-aware controller more room to adapt.</p>
+      <p class="caption">Original paper scaling experiment: GAC improves AMC accuracy over HPT by 2.2, 3.8, and 3.3 percentage points at 1.5B, 7B, and 14B respectively.</p>
 
       <h3 style="text-align: center; font-size: 1.15rem; margin-top: 2.2rem; margin-bottom: 0.5rem; color: var(--gray);">Table 4 · Science &amp; Logic — top-line vs. best baseline (HPT)</h3>
       <table class="results">
@@ -325,11 +373,12 @@
         </tbody>
       </table>
 
-      <img src="static/images/metrics.png" alt="GAC evaluation metrics" class="metric-figure" style="margin-top: 2.5rem;">
+      <img src="static/images/metrics.png" alt="Original paper evaluation metrics on the Qwen2.5 backbone" class="metric-figure" style="margin-top: 2.5rem;">
       <p class="caption">Evaluation performance and rollout dynamics — GAC consistently leads from ~200 steps and maintains a moderate response-length regime (~1.6-2.0k tokens), avoiding the 2.5-3.0k length spikes indicative of reward hacking in baselines.</p>
 
-      <img src="static/images/dynamics.png" alt="GAC μ and proxy dynamics" class="metric-figure">
+      <img src="static/images/dynamics.png" alt="Original paper GAC mixing-weight and proxy dynamics" class="metric-figure">
       <p class="caption">Controller state — μ trajectory and the three coefficient-space proxies. μ starts near 0.85 (SFT-dominated), gradually decreases to ~0.15 as training matures, and tracks σ<sub>r</sub>² rather than KL — the noise-aware estimator drives μ during &gt;93% of steps.</p>
+      </details>
     </div>
   </div>
 </section>
@@ -378,6 +427,11 @@
       <ul class="roadmap-list">
         <li>
           <span class="tag done">RELEASED</span>
+          <span class="version">v0.1.2</span>
+          <span><em>2026-10-08</em> · Refreshed <a href="https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B">GAC-Qwen3.5-4B</a> weights, full three-decoding-seed results, and a <a href="https://github.com/deepnovacore/GAC/tree/main/eval/profiles/gac_release_20261008">frozen reproduction profile</a>.</span>
+        </li>
+        <li>
+          <span class="tag done">RELEASED</span>
           <span class="version">v0.1.0</span>
           <span><em>2026-08</em> · Reference <code>AdaptiveMuController</code>, hybrid-loss integration, unit tests, default config, and a public evaluator covering <strong>11 task slices across 9 dataset families</strong> (Math / Knowledge / Code / Logic).</span>
         </li>
@@ -389,17 +443,17 @@
         <li>
           <span class="tag todo">COMING</span>
           <span class="version">v0.2.0</span>
-          <span><em>2026-09</em> · Training pipeline on top of VeRL, public wandb log links.</span>
+          <span>Planned · Public training-infrastructure packaging and reproducible recipe.</span>
         </li>
         <li>
           <span class="tag todo">COMING</span>
           <span class="version">v0.3.0</span>
-          <span><em>2026-10</em> · ModelScope mirror, <code>gac-core</code> on PyPI, and expanded external verification materials.</span>
+          <span>Planned · ModelScope mirror and expanded external verification materials.</span>
         </li>
         <li>
           <span class="tag todo">COMING</span>
           <span class="version">v0.4.0</span>
-          <span><em>2026-11</em> · Docker image, 1-command reproduction, external verification runs.</span>
+          <span>Planned · Containerized reproduction and external verification runs.</span>
         </li>
       </ul>
     </div>

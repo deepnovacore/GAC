@@ -1,37 +1,282 @@
 {
   "release": "GAC-Qwen3.5-4B",
-  "backbone": "Qwen3.5-4B-Base",
-  "metric_source": "author-reported release evaluation summary",
+  "release_id": "2026-10-08",
+  "evaluation_date": "2026-10-03",
+  "metric_source": "Measured full evaluation of the released checkpoint; counts from all three decoding seeds",
   "evaluation_protocol": {
-    "type": "fixed single-snapshot evaluation",
-    "reporting": "accuracy percentages",
-    "n_samples": 1,
-    "decoding": {
-      "math_knowledge_science_bbh": {"temperature": 0.6, "top_p": 0.95},
-      "code": {"temperature": 0.2, "top_p": 0.95}
-    },
+    "id": "gac-qwen35-4b-20261008",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "n_checkpoints": 1,
+    "n_samples_per_question_per_seed": 1,
+    "aggregation": "Mean across all three decoding seeds; not best-seed or best-of-n",
+    "n_task_slices": 11,
+    "n_unique_examples": 4447,
+    "n_generations": 13341,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "max_new_tokens": 8192,
+    "max_model_len": 16384,
+    "tp_size": 4,
+    "inference_dtype": "bfloat16",
+    "batching": "Joint batch of all task slices for each seed",
     "scoring": {
-      "math": "math-verify",
-      "multiple_choice": "strict answer-letter match",
-      "scibench": "SymPy equivalence with numeric fallback",
-      "code": "isolated pass@1 execution",
-      "bbh": "normalized exact match"
-    }
+      "math": "Final boxed answer, math-verify0.9.0 equivalence",
+      "multiple_choice": "Strict extracted answer-letter match",
+      "scibench": "scibench-numeric-units-v2; balanced final boxes, explicit units, 1% relative tolerance",
+      "code": "Final-answer code after declared thought, first Python fence, tested MBPP entrypoint, legacy body/full-function normalization, isolated pass@1 with original tests",
+      "bbh_choices": "Gold-independent explicit final-choice extraction",
+      "bbh_object_counting": "Boxed or answer-marker extraction with normalized exact match"
+    },
+    "recipe": "eval/profiles/gac_release_20261008",
+    "mmlu_dataset_revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+    "mmlu_manifest_sha256": "f8798784d2a55887402035d4e7b6cfa093dc8d419c1a68aefb811fd2b6e279f7",
+    "portable_data_fingerprint": "b4e4095a62395764927efe2b7b04992b1018895f81532b6b909dfefc62ebee8e"
   },
-  "comparison_note": "Base and GAC use the Qwen3.5-4B backbone. Values describe a fixed release evaluation snapshot; repeated runs are needed to estimate statistical uncertainty.",
+  "post_training": {
+    "method": "GAC hybrid SFT-RL followed by supervised refinement",
+    "refinement": {
+      "n_examples": 128,
+      "math_examples": 64,
+      "general_replay_examples": 64,
+      "epochs": 2,
+      "learning_rate": 0.000002,
+      "global_batch_size": 32,
+      "shuffle_seed": 20261001,
+      "micro_batch_size_per_gpu": 1,
+      "packing": false,
+      "lr_warmup_updates": 1,
+      "learning_rate_schedule": "constant",
+      "weight_decay": 0.01,
+      "gradient_clip": 1,
+      "model_max_tokens": 5120,
+      "prompt_max_tokens": 2048,
+      "response_max_tokens": 3072
+    },
+    "new_refinement_overlap_check": "No direct overlap found by the documented normalized and candidate-similarity checks against the fixed evaluation questions"
+  },
+  "interpretation": "Benchmark-monitored development evaluation of one checkpoint; decoding seeds quantify sampling variability, not independent training runs. The original paper uses separate experimental settings.",
   "metrics": [
-    {"domain": "Mathematics", "benchmark": "AMC", "n_examples": 83, "qwen35_4b_base": 19.3, "gac_release": 67.5},
-    {"domain": "Mathematics", "benchmark": "AIME24", "n_examples": 30, "qwen35_4b_base": 0.0, "gac_release": 26.7},
-    {"domain": "Mathematics", "benchmark": "AIME25", "n_examples": 30, "qwen35_4b_base": 3.3, "gac_release": 20.0},
-    {"domain": "Knowledge", "benchmark": "MMLU-Pro", "n_examples": 1000, "qwen35_4b_base": 58.3, "gac_release": 74.2},
-    {"domain": "Science", "benchmark": "GPQA-Diamond", "n_examples": 198, "qwen35_4b_base": 29.3, "gac_release": 64.1},
-    {"domain": "Science", "benchmark": "SciBench", "n_examples": 692, "qwen35_4b_base": 11.4, "gac_release": 60.1},
-    {"domain": "Code", "benchmark": "MBPP", "n_examples": 500, "qwen35_4b_base": 67.6, "gac_release": 74.6},
-    {"domain": "Code", "benchmark": "HumanEval", "n_examples": 164, "qwen35_4b_base": 67.7, "gac_release": 81.1},
-    {"domain": "Logic", "benchmark": "BBH Logical Deduction", "n_examples": 750, "qwen35_4b_base": 86.3, "gac_release": 93.1},
-    {"domain": "Logic", "benchmark": "BBH Object Counting", "n_examples": 250, "qwen35_4b_base": 93.2, "gac_release": 92.8},
-    {"domain": "Logic", "benchmark": "BBH Tracking", "n_examples": 750, "qwen35_4b_base": 97.6, "gac_release": 95.3},
-    {"domain": "Logic", "benchmark": "BBH average", "n_examples": 1750, "aggregation": "macro-average over the three BBH slices", "qwen35_4b_base": 92.4, "gac_release": 93.7}
+    {
+      "domain": "Mathematics",
+      "benchmark": "AMC",
+      "key": "amc",
+      "n_examples": 83,
+      "correct_counts": [
+        55,
+        56,
+        55
+      ],
+      "seed_percentages": [
+        66.26506024096386,
+        67.46987951807229,
+        66.26506024096386
+      ],
+      "mean_percentage": 66.66666666666667,
+      "display_percentage": 66.7
+    },
+    {
+      "domain": "Mathematics",
+      "benchmark": "AIME24",
+      "key": "aime24",
+      "n_examples": 30,
+      "correct_counts": [
+        9,
+        11,
+        11
+      ],
+      "seed_percentages": [
+        30,
+        36.666666666666664,
+        36.666666666666664
+      ],
+      "mean_percentage": 34.44444444444444,
+      "display_percentage": 34.4
+    },
+    {
+      "domain": "Mathematics",
+      "benchmark": "AIME25",
+      "key": "aime25",
+      "n_examples": 30,
+      "correct_counts": [
+        8,
+        9,
+        7
+      ],
+      "seed_percentages": [
+        26.666666666666668,
+        30,
+        23.333333333333332
+      ],
+      "mean_percentage": 26.666666666666668,
+      "display_percentage": 26.7
+    },
+    {
+      "domain": "Knowledge",
+      "benchmark": "MMLU-Pro",
+      "key": "mmlu-pro",
+      "n_examples": 1000,
+      "correct_counts": [
+        724,
+        723,
+        729
+      ],
+      "seed_percentages": [
+        72.4,
+        72.3,
+        72.9
+      ],
+      "mean_percentage": 72.53333333333333,
+      "display_percentage": 72.5
+    },
+    {
+      "domain": "Science",
+      "benchmark": "GPQA-Diamond",
+      "key": "gpqa",
+      "n_examples": 198,
+      "correct_counts": [
+        116,
+        113,
+        122
+      ],
+      "seed_percentages": [
+        58.58585858585859,
+        57.07070707070707,
+        61.61616161616162
+      ],
+      "mean_percentage": 59.09090909090909,
+      "display_percentage": 59.1
+    },
+    {
+      "domain": "Science",
+      "benchmark": "SciBench",
+      "key": "scibench",
+      "n_examples": 692,
+      "correct_counts": [
+        399,
+        393,
+        423
+      ],
+      "seed_percentages": [
+        57.65895953757225,
+        56.79190751445087,
+        61.127167630057805
+      ],
+      "mean_percentage": 58.52601156069364,
+      "display_percentage": 58.5
+    },
+    {
+      "domain": "Code",
+      "benchmark": "MBPP",
+      "key": "mbpp",
+      "n_examples": 500,
+      "correct_counts": [
+        348,
+        349,
+        337
+      ],
+      "seed_percentages": [
+        69.6,
+        69.8,
+        67.4
+      ],
+      "mean_percentage": 68.93333333333334,
+      "display_percentage": 68.9
+    },
+    {
+      "domain": "Code",
+      "benchmark": "HumanEval",
+      "key": "humaneval",
+      "n_examples": 164,
+      "correct_counts": [
+        142,
+        138,
+        146
+      ],
+      "seed_percentages": [
+        86.58536585365853,
+        84.14634146341463,
+        89.02439024390245
+      ],
+      "mean_percentage": 86.58536585365853,
+      "display_percentage": 86.6
+    },
+    {
+      "domain": "Logic",
+      "benchmark": "BBH Logical Deduction",
+      "key": "logical_deduction",
+      "n_examples": 750,
+      "correct_counts": [
+        713,
+        705,
+        707
+      ],
+      "seed_percentages": [
+        95.06666666666666,
+        94,
+        94.26666666666667
+      ],
+      "mean_percentage": 94.44444444444444,
+      "display_percentage": 94.4
+    },
+    {
+      "domain": "Logic",
+      "benchmark": "BBH Object Counting",
+      "key": "object_counting",
+      "n_examples": 250,
+      "correct_counts": [
+        224,
+        219,
+        215
+      ],
+      "seed_percentages": [
+        89.6,
+        87.6,
+        86
+      ],
+      "mean_percentage": 87.73333333333333,
+      "display_percentage": 87.7
+    },
+    {
+      "domain": "Logic",
+      "benchmark": "BBH Tracking",
+      "key": "tracking_shuffled_objects",
+      "n_examples": 750,
+      "correct_counts": [
+        717,
+        721,
+        714
+      ],
+      "seed_percentages": [
+        95.6,
+        96.13333333333334,
+        95.2
+      ],
+      "mean_percentage": 95.64444444444445,
+      "display_percentage": 95.6
+    },
+    {
+      "domain": "Logic",
+      "benchmark": "BBH average (macro)",
+      "key": "bbh_macro",
+      "n_examples": 1750,
+      "n_slices": 3,
+      "aggregation": "Unweighted mean of the three BBH slice accuracies, before rounding",
+      "seed_percentages": [
+        93.42222222222222,
+        92.57777777777778,
+        91.82222222222221
+      ],
+      "mean_percentage": 92.6074074074074,
+      "display_percentage": 92.6
+    }
   ],
-  "data_cleaning_note": "AMC, AIME25, and HumanEval were corrected by the authors to 67.5%, 20.0%, and 81.1%. The MBPP GAC value was normalized to 74.6% from the supplied evaluation tabulation. The GAC BBH macro-average was recomputed from the three displayed slice values (93.1%, 92.8%, and 95.3%) and rounded to 93.7%."
+  "evidence": {
+    "predictions_sha256": "847eb8c3ccfe872f3039ecb4597cd9536fe7a4bced666ea437d7373bdbe9e084",
+    "reasoning_scores_sha256": "6c0ba7d3151683146087f2698910a0441d643c870e11f65c84baca6e8f73f6b2",
+    "code_scores_sha256": "e7b578619142c72152b4671eadf1519d3031547cc349597ccfd0e206f51e9507"
+  }
 }

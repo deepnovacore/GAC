@@ -1,7 +1,8 @@
 cff-version: 1.2.0
 message: "If you use GAC-Qwen3.5-4B, please cite the GAC paper and Qwen3.5."
 title: "GAC-Qwen3.5-4B"
-version: "1.0.0"
+version: "1.1.0"
+date-released: "2026-10-08"
 authors:
   - family-names: Hu
     given-names: Yuelin

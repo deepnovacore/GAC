@@ -18,167 +18,126 @@ tags:
 
 # GAC-Qwen3.5-4B
 
-## Noise-Aware Adaptive Mixing for Hybrid SFT–RL Post-Training
+GAC-Qwen3.5-4B brings noise-aware adaptive SFT–RL post-training to the
+Qwen3.5-4B backbone. This release combines GAC post-training with a supervised
+mathematics and general-dialogue refinement stage, and provides BF16 inference
+weights, a complete three-seed evaluation summary, and a versioned evaluation
+profile.
 
-This is the public compact-backbone release of **GAC**, a closed-form,
-noise-aware controller that adaptively mixes supervised fine-tuning (SFT) and
-reinforcement learning (RL) signals during post-training.
-
-The release is designed for researchers who want to study adaptive SFT–RL
-post-training with a contemporary, accessible model backbone. The algorithmic
-implementation, evaluation harness, and method description are available in
-the [GAC repository](https://github.com/deepnovacore/GAC).
-
-## GAC on a modern 4B backbone
-
-We retrained GAC on **Qwen3.5-4B** to bring adaptive hybrid SFT–RL
-post-training to a modern, capable small-model backbone. This release follows
-progress in compact language models while making GAC more accessible for
-research, evaluation, and deployment with modest compute resources.
+[Paper](https://openreview.net/forum?id=VhBpT4iq60) ·
+[Code](https://github.com/deepnovacore/GAC) ·
+[Project page](https://deepnovacore.github.io/GAC/) ·
+[Release evaluation profile](https://github.com/deepnovacore/GAC/tree/main/eval/profiles/gac_release_20261008)
 
 ## Model details
 
-- **Base model:** Qwen3.5-4B-Base
-- **Post-training method:** GAC (hybrid SFT–RL adaptive mixing)
-- **Parameter scale:** approximately 4B language-model parameters
-- **Format:** Hugging Face Transformers / `safetensors`
-- **Transformers compatibility:** use Transformers 5.10.4 or newer with native
-  Qwen3.5 support
-- **Modalities:** the checkpoint retains the Qwen3.5 text-and-vision model
-  interface; the reported evaluation is text-only reasoning and coding
-- **License:** Apache-2.0, subject to the upstream Qwen3.5 license and notices
+- **Backbone:** Qwen3.5-4B-Base.
+- **Post-training:** GAC hybrid SFT–RL followed by full-parameter supervised refinement.
+- **Format:** BF16 `safetensors`, with native Qwen3.5 Transformers configuration.
+- **Interface:** the text-and-vision architecture is retained; the scores below evaluate text-only reasoning and code.
+- **Release:** October 2026, with evaluation performed on October 3, 2026.
+- **License:** Apache-2.0, subject to upstream Qwen3.5 notices and dataset terms.
 
-## Intended use
+## Evaluation results
 
-This checkpoint is intended for research on adaptive hybrid SFT–RL
-post-training, reproducible checkpoint evaluation, and low-cost experimentation
-with compact multimodal language models. It is not a safety-certified system
-and should not be used for unsupervised high-stakes decisions.
+The table reports the **mean over decoding seeds 0, 1, and 2** for this
+checkpoint: 4,447 questions across 11 task slices, with one generated answer
+per question per seed. Code scores are `pass@1`. Exact counts and unrounded
+means are available in [EVAL_RESULTS.json](EVAL_RESULTS.json).
 
-## Release contents
+| Domain | Benchmark | Eval size per seed | GAC release three-seed mean |
+|:--|:--|--:|--:|
+| Mathematics | AMC | 83 | **66.7%** |
+| Mathematics | AIME24 | 30 | **34.4%** |
+| Mathematics | AIME25 | 30 | **26.7%** |
+| Knowledge | MMLU-Pro | 1,000 | **72.5%** |
+| Science | GPQA-Diamond | 198 | **59.1%** |
+| Science | SciBench | 692 | **58.5%** |
+| Code | MBPP | 500 | **68.9%** |
+| Code | HumanEval | 164 | **86.6%** |
+| Logic | BBH Logical Deduction | 750 | **94.4%** |
+| Logic | BBH Object Counting | 250 | **87.7%** |
+| Logic | BBH Tracking | 750 | **95.6%** |
+| Logic | BBH average (macro) | 3 slices / 1,750 | **92.6%** |
 
-The release provides inference weights, model and tokenizer configuration,
-licensing notices, and an evaluation summary. The public GAC implementation
-and evaluator accompany the checkpoint to support research and checkpoint
-benchmarking.
-
-## Evaluation snapshot
-
-The table below reports the compact-backbone evaluation snapshot for the base
-checkpoint and the GAC release checkpoint. Percentages are author-reported
-release metrics; a rerun with the public evaluator writes exact
-per-example counts and summaries.
-
-| Domain | Benchmark | Eval size (N) | Qwen3.5-4B Base | GAC release |
-|:--|:--|--:|--:|--:|
-| Mathematics | AMC | 83 | 19.3% | **67.5%** |
-| Mathematics | AIME24 | 30 | 0.0% | **26.7%** |
-| Mathematics | AIME25 | 30 | 3.3% | **20.0%** |
-| Knowledge | MMLU-Pro | 1,000 | 58.3% | **74.2%** |
-| Science | GPQA-Diamond | 198 | 29.3% | **64.1%** |
-| Science | SciBench | 692 | 11.4% | **60.1%** |
-| Code | MBPP | 500 | 67.6% | **74.6%** |
-| Code | HumanEval | 164 | 67.7% | **81.1%** |
-| Logic | BBH Logical Deduction | 750 | 86.3% | **93.1%** |
-| Logic | BBH Object Counting | 250 | 93.2% | **92.8%** |
-| Logic | BBH Tracking | 750 | 97.6% | **95.3%** |
-| Logic | BBH average (macro) | 3 slices / 1,750 | 92.4% | **93.7%** |
-
-The table compares the Qwen3.5-4B base checkpoint with the GAC release.
-Values describe a fixed evaluation snapshot. Multiple seeds and per-example
-outputs support more detailed statistical comparisons. BBH average is the
-unweighted mean of the three displayed BBH slice scores.
-
-### Reading the result
-
-Relative to the Qwen3.5-4B base snapshot, the GAC release is higher on 9 of 11
-task slices in this snapshot, with gains across math, knowledge, science, and
-code. BBH remains in a high-performance regime: the macro-average is higher,
-while Object Counting and Tracking are slightly below the base snapshot. This
-is descriptive evidence for transfer to a compact backbone, not a claim of
-universal improvement.
+BBH macro-average gives equal weight to the three slice accuracies and is
+calculated before rounding. The seeds measure decoding variability for one
+checkpoint, not three independent training runs. Evaluation informed
+checkpoint development; this snapshot is separate from the paper's experiments.
 
 ### Evaluation protocol
 
-For an apples-to-apples rerun, use the public evaluator with `--n_samples 1`
-and record the model revision, software versions, dataset revision, and seed.
-The harness uses the following task-specific defaults:
+All task slices use **temperature 0.6, top-p 0.95, max 8,192 new tokens**,
+one sample, BF16 inference, a 16,384-token model context, and tensor parallelism
+of 4. The profile generates one joint batch of all task slices for each seed.
 
-| Task family | Decoding | Scoring |
-|:--|:--|:--|
-| AMC / AIME24 / AIME25 | temperature 0.6, top-p 0.95, max 8,192 tokens | `math-verify` equivalence |
-| MMLU-Pro / GPQA-Diamond | temperature 0.6, top-p 0.95, max 8,192 tokens | strict answer-letter match |
-| SciBench | temperature 0.6, top-p 0.95, max 8,192 tokens | SymPy equivalence plus numeric fallback |
-| MBPP / HumanEval | temperature 0.2, top-p 0.95, max 1,024 tokens | isolated `pass@1` execution |
-| BBH logical subsets | temperature 0.6, top-p 0.95, max 4,096 tokens | normalized exact match |
+| Task family | Scoring |
+|:--|:--|
+| AMC / AIME24 / AIME25 | Final boxed answer with `math-verify==0.9.0` equivalence |
+| MMLU-Pro / GPQA-Diamond | Strict extracted answer-letter match |
+| SciBench | Numeric-and-units protocol v2, with balanced final boxes and 1% relative tolerance |
+| MBPP / HumanEval | Final-answer code extraction, tested MBPP entrypoint, and original tests in an isolated CPU sandbox |
+| BBH logic | Explicit final choices for deduction/tracking; normalized answer matching for object counting |
 
-Dataset IDs, splits, fixed-subset selection, and the required example counts
-are maintained in [`eval/README.md`](https://github.com/deepnovacore/GAC/tree/main/eval).
-The evaluator pins MMLU-Pro to revision
-`b189ec765aa7ed75c8acfea42df31fdae71f97be` with a public 1,000-ID manifest for
-reruns. GPQA-Diamond requires gated dataset access or a lawfully obtained,
-user-provided CSV through `--gpqa_csv`; GPQA data is not redistributed.
+These are the **release profile** settings. The general evaluator's
+task-specific defaults use different code and logic budgets; use the linked
+release profile when reproducing this table. MMLU-Pro uses a pinned revision
+and the checked-in 1,000-ID manifest. GPQA requires dataset access or a
+lawfully obtained complete CSV; its data is not bundled.
+
+## Supervised refinement
+
+The refinement stage uses 128 examples: 64 reviewed mathematics examples and
+64 general-dialogue replay examples. It applies two epochs of full-parameter
+SFT with learning rate `2e-6`, global batch size 32, constant learning-rate
+schedule, one warmup update, shuffle seed `20261001`, and single-example
+microbatches without packing. The new refinement examples passed the recorded
+overlap checks against the fixed evaluation questions. See
+[REFINEMENT_METADATA.json](REFINEMENT_METADATA.json) for source fingerprints,
+the complete refinement recipe and the scope of these checks.
 
 ## Quick start
 
-### Transformers
+Install Transformers with native Qwen3.5 support and Accelerate:
+
+```bash
+pip install -U "transformers>=5.10.4" accelerate
+```
 
 ```python
 import torch
 from transformers import AutoProcessor, AutoModelForImageTextToText
 
-model_id = "YueLinHu/GAC-Qwen3.5-4B"  # replace the namespace for other mirrors
-
+model_id = "YueLinHu/GAC-Qwen3.5-4B"
 processor = AutoProcessor.from_pretrained(model_id)
 model = AutoModelForImageTextToText.from_pretrained(
-    model_id,
-    torch_dtype="auto",
-    device_map="auto",
+    model_id, dtype=torch.bfloat16, device_map="auto", trust_remote_code=False
 )
-
-messages = [
-    {"role": "user", "content": [{"type": "text", "text": "Solve: 2 + 2 = ?"}]}
-]
-text = processor.apply_chat_template(
-    messages, tokenize=False, add_generation_prompt=True
-)
-inputs = processor(text=[text], return_tensors="pt").to(model.device)
+messages = [{"role": "user", "content": [{"type": "text", "text": "Solve: 2 + 2 = ?"}]}]
+inputs = processor.apply_chat_template(
+    messages, tokenize=True, add_generation_prompt=True,
+    return_dict=True, return_tensors="pt"
+).to(model.device)
 with torch.inference_mode():
-    output_ids = model.generate(**inputs, max_new_tokens=256)
-print(processor.batch_decode(output_ids, skip_special_tokens=True)[0])
+    outputs = model.generate(**inputs, max_new_tokens=8192,
+                             do_sample=True, temperature=0.6, top_p=0.95)
+print(processor.decode(outputs[0][inputs["input_ids"].shape[-1]:],
+                       skip_special_tokens=True))
 ```
 
-Install a current Transformers release with native Qwen3.5 support before
-loading the checkpoint, for example `pip install -U "transformers>=5.10.4"`.
-Use the official Qwen3.5 documentation for multimodal inputs. For text-only
-benchmark reproduction, follow the commands in the repository's
-[`eval/README.md`](https://github.com/deepnovacore/GAC/tree/main/eval).
+## Reproducibility and use
 
-## Reproducibility
+The [release profile](https://github.com/deepnovacore/GAC/tree/main/eval/profiles/gac_release_20261008)
+contains the prompts, dataset checks, generation and scoring commands, and
+parser tests. [EVAL_RESULTS.json](EVAL_RESULTS.json) records all three seeds'
+correct counts, dataset/profile fingerprints, and scoring conventions.
+The [release manifest](RELEASE_MANIFEST.json) identifies the published weights
+and code revision. Prior model revisions remain available in Hub history.
 
-The algorithmic implementation, default controller configuration, unit tests,
-and evaluation harness are available at:
-
-- Code: https://github.com/deepnovacore/GAC
-- Paper and method description: https://openreview.net/forum?id=VhBpT4iq60
-- Evaluation harness: https://github.com/deepnovacore/GAC/tree/main/eval
-
-For scientifically comparable reporting, record the exact model revision,
-transformers/vLLM version, decoding configuration, dataset revision, random
-seed, pass@1 execution sandbox, and scoring parser. The values above are a
-fixed release snapshot rather than multi-seed confidence intervals. When
-`n_samples` is greater than one, the harness reports best-of-n for generated
-answers; use `n_samples=1` for the pass@1-style snapshot shown above.
-
-## Limitations and responsible use
-
-- Benchmark accuracy is not a guarantee of reliability, factuality, or safety
-  in deployment.
-- Code-generation outputs must be executed in an isolated sandbox.
-- Reported values are a fixed evaluation snapshot; use repeated runs to
-  estimate statistical uncertainty.
-- Users are responsible for complying with the licenses and usage policies of
-  Qwen3.5, the evaluation datasets, and any downstream application.
+Use this model for research, reasoning experiments, and code-generation
+evaluation. Benchmark accuracy does not establish reliability in high-stakes
+applications; execute generated code only in an isolated environment and
+follow the licenses and access conditions of the model and datasets.
 
 ## Citation
 
@@ -193,7 +152,4 @@ answers; use `n_samples=1` for the pass@1-style snapshot shown above.
 }
 ```
 
-## Acknowledgements
-
-This checkpoint builds on Qwen3.5 and the GAC post-training method. Please
-cite both the GAC paper and the upstream Qwen3.5 model when appropriate.
+Please cite the GAC paper and the upstream Qwen3.5 model when appropriate.

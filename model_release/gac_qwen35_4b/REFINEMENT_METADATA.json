@@ -1,0 +1,32 @@
+{
+  "release_id": "2026-10-08",
+  "stage": "Full-parameter supervised refinement after GAC hybrid post-training",
+  "n_examples": 128,
+  "groups": {"reviewed_mathematics": 64, "general_dialogue_replay": 64},
+  "sources": ["OpenR1-style mathematics source", "General-dialogue replay source"],
+  "dataset_sha256": "8524bacb4b51707f06b9360442efc06307d510cb1bc53015fb571c2974a45dd9",
+  "row_provenance_sha256": "11ec110307687ba99f29c9b3410286c59cdc29b090ed5ae95d59b93cfeb6e466",
+  "recipe": {
+    "epochs": 2,
+    "learning_rate": 0.000002,
+    "global_batch_size": 32,
+    "micro_batch_size_per_gpu": 1,
+    "packing": false,
+    "shuffle_seed": 20261001,
+    "lr_schedule": "constant",
+    "warmup_updates": 1,
+    "weight_decay": 0.01,
+    "gradient_clip": 1,
+    "prompt_max_tokens": 2048,
+    "response_max_tokens": 3072,
+    "model_max_tokens": 5120
+  },
+  "validation": {
+    "all_rows_pass_formatter_and_token_budget_checks": true,
+    "general_replay_rows_unchanged": true,
+    "direct_benchmark_training_rows_in_new_refinement": 0,
+    "overlap_checks": "Normalized exact/substring checks and 0.80-threshold fuzzy candidate comparisons against the fixed evaluation questions",
+    "scope": "These checks cover the new refinement set, not exposure in upstream pretraining or earlier GAC training",
+    "benchmark_monitored_development": true
+  }
+}

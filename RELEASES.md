@@ -1,5 +1,19 @@
 # GAC Release Notes
 
+## 2026-10-08 — Compact model refresh and three-seed evaluation
+
+- Refresh GAC-Qwen3.5-4B with GAC post-training followed by reviewed
+  mathematics/general-dialogue supervised refinement. Publish a BF16 export
+  matching the measured inference precision; retain the full native architecture.
+- Replace the current model-card snapshot with measured means over decoding
+  seeds 0, 1 and 2, including exact counts for all 11 task slices.
+- Add `eval/profiles/gac_release_20261008/`: a frozen joint-batch profile,
+  dataset fingerprint checks, numeric-and-units SciBench scoring, explicit BBH
+  choice parsing, and isolated final-answer code scoring with original tests.
+- Keep general evaluator defaults and original paper results separate.
+  The earlier release remains available in Hugging Face history at
+  `before-refresh-20261008`.
+
 ## 2026-09-11 — Fixed dataset protocol and release corrections
 
 - Pin MMLU-Pro to revision `b189ec765aa7ed75c8acfea42df31fdae71f97be`

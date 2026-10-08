@@ -1,0 +1,5 @@
+# Install the generation environment separately from isolated CPU code scoring.
+-r ../../requirements.txt
+vllm==0.23.0
+transformers==5.12.1
+math-verify==0.9.0
