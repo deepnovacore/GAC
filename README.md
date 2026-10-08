@@ -63,7 +63,7 @@ We derive a closed-form optimal μ that minimizes the MSE of the composite gradi
 
 where **σ<sub>s</sub>², σ<sub>r</sub>²** are SFT and RL noise variances and **Δg²** is the SFT–RL disagreement. Since gradient-level quantities are prohibitively expensive at every step, we deploy three **coefficient-space proxies** estimated online from tensors any GRPO/PPO trainer already computes, wrapped in EMA smoothing, a cosine-schedule prior, and per-step change capping.
 
-**Paper result**: **+3.8 pp over HPT** (the previous best hybrid post-training method) averaged over math, code, science, and logic benchmarks, with **< 1% wall-time overhead**, **28% lower KL-drift area**, and consistent gains across the evaluated 1.5B → 14B models.
+**Paper result**: **+3.8 pp over HPT on AMC with Qwen2.5-7B**, with consistent gains across math, code, science, and logic benchmarks, **< 1% wall-time overhead**, **28% lower KL-drift area**, and improvements across the evaluated 1.5B → 14B models.
 
 ---
 

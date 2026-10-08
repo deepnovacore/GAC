@@ -172,7 +172,7 @@
     <div class="tldr-box">
       <span class="tldr-label">TL;DR</span>
       <p style="margin: 0; font-size: 1.05rem;">
-        Hybrid SFT–RL post-training uses a <em>fixed</em> mixing weight μ that ignores how relative signal noise evolves during training. GAC casts μ as an <strong>MSE-optimal gradient estimation problem</strong>, gives a <strong>closed-form solution</strong>, and estimates it online from three cheap coefficient-space proxies. In the paper experiments: <span class="highlight-red">+3.8 pp over HPT</span> across math / code / science / logic, <span class="highlight-red">28% less KL drift</span>, <span class="highlight-red">&lt; 1% wall-time overhead</span>, and consistent gains across evaluated model sizes (1.5B → 14B).
+        Hybrid SFT–RL post-training uses a <em>fixed</em> mixing weight μ that ignores how relative signal noise evolves during training. GAC casts μ as an <strong>MSE-optimal gradient estimation problem</strong>, gives a <strong>closed-form solution</strong>, and estimates it online from three cheap coefficient-space proxies. In the paper experiments: <span class="highlight-red">+3.8 pp over HPT on AMC (Qwen2.5-7B)</span>, consistent gains across math / code / science / logic, <span class="highlight-red">28% less KL drift</span>, and <span class="highlight-red">&lt; 1% wall-time overhead</span>.
       </p>
     </div>
   </div>
@@ -206,7 +206,7 @@
         that balances SFT noise, RL noise, and SFT–RL disagreement. Because gradient-level quantities are prohibitively expensive at every step, we introduce three <strong>coefficient-space proxies</strong> — estimated online from tensors any GRPO/PPO trainer already computes — and wrap them in a guarded update stack: EMA smoothing, a cosine-schedule prior, per-step change capping, and hard clipping. The controller is <em>length-invariant by construction</em> and has <em>less than 1% wall-time overhead</em>.
       </p>
       <p>
-        In the original paper experiments across math, code, science, and logic benchmarks, the noise-aware estimator alone outperforms the best rule-based baseline; the full system reaches <span class="highlight-red">+3.8 pp over HPT</span> on average, while reducing <span class="highlight-red">KL-drift area by 28%</span> and large |Δμ| events by <span class="highlight-red">more than 70%</span>. Gains are consistent across the evaluated Qwen2.5-1.5B, 7B, and 14B models.
+        In the original paper experiments across math, code, science, and logic benchmarks, the noise-aware estimator alone outperforms the best rule-based baseline; the full system improves Qwen2.5-7B AMC accuracy by <span class="highlight-red">3.8 percentage points over HPT</span>, while reducing <span class="highlight-red">KL-drift area by 28%</span> and large |Δμ| events by <span class="highlight-red">more than 70%</span>. Gains are consistent across the evaluated Qwen2.5-1.5B, 7B, and 14B models.
       </p>
     </div>
   </div>
