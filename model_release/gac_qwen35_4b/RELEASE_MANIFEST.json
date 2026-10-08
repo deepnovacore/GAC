@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "model": "YueLinHu/GAC-Qwen3.5-4B",
+  "release_id": "2026-10-08",
+  "evaluation_date": "2026-10-03",
+  "weight_artifact": {
+    "path": "model.safetensors",
+    "sha256": "e4a2847ab38878083506fb4f6f4265a3d084e33ef752a35eca8c092570d4d58b",
+    "bytes": 9078620536,
+    "dtype": "bfloat16",
+    "tensor_count": 723,
+    "stored_parameter_elements": 4539265536,
+    "architecture": "Qwen3_5ForConditionalGeneration",
+    "vision_tensor_count": 297,
+    "tied_embedding_head": true,
+    "conversion": "IEEE round-to-nearest, ties-to-even, matching the evaluated BF16 cast",
+    "source_sha256": "9ae093fdf3e49f1390b57eb20dffb91d2a0d0fe403e533da806090021a286777"
+  },
+  "evaluation": {
+    "results_file": "EVAL_RESULTS.json",
+    "results_sha256": "76a42f55d4379c18fe3792efdac74f28f7e722f9a6f22e9f39c29021c93c1c4b",
+    "profile": "gac-qwen35-4b-20261008",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "aggregation": "Mean over all three decoding seeds of one checkpoint",
+    "n_examples_per_seed": 4447,
+    "n_generations": 13341,
+    "evaluator_repository": "https://github.com/deepnovacore/GAC",
+    "evaluator_git_revision": "c3ee8ca674dc0ab3bfd121d01fd9fe789c5409c4",
+    "evaluator_path": "eval/profiles/gac_release_20261008",
+    "evaluator_url": "https://github.com/deepnovacore/GAC/tree/c3ee8ca674dc0ab3bfd121d01fd9fe789c5409c4/eval/profiles/gac_release_20261008"
+  },
+  "refinement_metadata": {
+    "path": "REFINEMENT_METADATA.json",
+    "sha256": "5ca1f20367d1ece3ae78a3db0566c618eb04ae04966c8a3628c101b39aadcec2"
+  },
+  "validation": {
+    "all_source_hashes_match": true,
+    "items_validated": 4447,
+    "predictions_validated": 13341,
+    "noncode_scoring_exact_parity": 11349,
+    "code_normalization_exact_parity": 1992,
+    "all_table_counts_and_means_match": true,
+    "generated_code_executed": false,
+    "finite_source_and_exported_weights": true,
+    "architecture_shapes_match": true,
+    "vision_architecture_retained": true,
+    "code_namespace_smoke_passed": true,
+    "code_scoring_safety": "Offline user/mount/network/PID namespaces with chroot, read-only dependencies and dropped capabilities",
+    "original_checkpoint_modified": false
+  },
+  "previous_release": {
+    "git_revision": "0a49e7de9f23f5cc805cd13ab101c22f677b9307",
+    "rollback_tag": "before-refresh-20261008"
+  },
+  "release_tag": "release-20261008"
+}
