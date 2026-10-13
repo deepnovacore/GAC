@@ -4,7 +4,7 @@
 ### Noise-Aware Adaptive Mixing for Hybrid SFT–RL Post-Training
 
 [![EMNLP 2026](https://img.shields.io/badge/EMNLP-2026-blueviolet.svg?style=flat-square)](https://2026.emnlp.org/)
-[![arXiv](https://img.shields.io/badge/arXiv-forthcoming-b31b1b.svg?style=flat-square)](#)
+[![arXiv](https://img.shields.io/badge/arXiv-2605.26184-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2605.26184)
 [![OpenReview](https://img.shields.io/badge/OpenReview-VhBpT4iq60-8c1b13.svg?style=flat-square)](https://openreview.net/forum?id=VhBpT4iq60)
 [![Project Page](https://img.shields.io/badge/Project-Page-2ea44f.svg?style=flat-square)](https://deepnovacore.github.io/GAC/)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-GAC--Qwen3.5--4B-yellow.svg?style=flat-square&logo=huggingface&logoColor=white)](https://huggingface.co/YueLinHu/GAC-Qwen3.5-4B)
