@@ -15,6 +15,8 @@
 <sub>Yuelin Hu¹ · Wei Liu² · Zhenbo Yu¹,³ · Zhengxue Cheng¹ · Li Song¹</sub>
 <sub><sup>¹</sup>Shanghai Jiao Tong University &nbsp;·&nbsp; <sup>²</sup>Shanghai Maritime University &nbsp;·&nbsp; <sup>³</sup>Novacore</sub>
 
+Research profile: [Yuelin Hu (胡玥麟)](https://scholar.google.com/citations?user=Kd57ldIAAAAJ) · [GitHub](https://github.com/huyuelin).
+
 <img src="assets/method_figure.png" alt="GAC method figure" width="90%">
 
 </div>
@@ -330,3 +332,4 @@ For questions, feedback, or collaboration opportunities:
 <div align="center">
 <sub>Released under the <a href="LICENSE">Apache License 2.0</a>. Copyright © 2026 the GAC authors.</sub>
 </div>
+
